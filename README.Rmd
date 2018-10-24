@@ -1,28 +1,7 @@
----
-title: "Untitled"
-output: html_document
----
+This 7-week course, as described in Kimmo Vehkalahti's blog, is
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+_open for everyone willing to learn how to use RStudio, R Markdown and GitHub (state-of-the-art tools of data science) to visualise and analyse open data with multivariate statistical methods following principles and practices of reproducible research_
 
-## R Markdown
+The course sounds exciting enough for me to cha(lle)nge my plans and become a data scientist!
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+[Annukka's GitHub repository](https://github.com/msnxt/IODS-project)
