@@ -1,9 +1,10 @@
 ---
+layout: default
 title: "IODS course project"
 author: "Annukka Puotiniemi"
 output:
   html_document:
-    theme: yeti
+    theme: default
     toc: true
     toc_depth: 2
     fig_caption: true
