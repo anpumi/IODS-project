@@ -3,8 +3,6 @@
 
 ## Introduction to Open Data Science
 
-[Diary Page](https://msnxt.github.io/IODS-project/)
-
 This 7-week course, as described in Kimmo Vehkalahti's blog, is
 
 _open for everyone willing to learn how to use RStudio, R Markdown and GitHub (state-of-the-art tools of data science) to visualise and analyse open data with multivariate statistical methods following principles and practices of reproducible research_
@@ -14,5 +12,4 @@ The course sounds exciting enough for me to cha(lle)nge my plans and become a da
 ![Paws, just because](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/paws.png)
 
 [Annukka's GitHub repository](https://github.com/msnxt/IODS-project)
-
-
+[Diary Page](https://msnxt.github.io/IODS-project/)
