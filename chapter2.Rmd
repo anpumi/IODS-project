@@ -6,7 +6,41 @@
 
 a_dataset <- analysis_dataset[apply(analysis_dataset!=0, 1, all),]
 
-*I now have the correct number of observations and variabes, but this method would exclude all other zero rows too I think...*
+*I now have the correct number of observations and variables, but this method would exclude all other zero rows too I think...*
+
+To read the previously wrangled data from my local folder into R:
+
+mydata <- read.csv("learning2014.csv")
+
+The dataset is a combination of certain variables from a survey dataset. The survey examined the relationship between learning approaches and the achievements of students. All combination variables were scaled to the original scales. Observations where the exam points variable is zero (student did not sit the exam) were excluded to remove outliers.
+The (combination) variables included are: 
+- gender
+- age
+- attitude (Global attitude toward statistics)
+- deep (measures deep learning)
+- stra (measures strategic learning)
+- surf (measures surface learning)
+- points (points from the exam)
+
+Here is the code I wrote to begin the graphical overview of the data,initialized the plot with data and aesthetic mappings, including colours by the variable gender, and showed summaries of the variables in the data:
+
+mydata <- read.csv("learning2014.csv")  
+install.packages('ggplot2')  
+library(ggplot2)  
+p1 <- ggplot(mydata, aes(x = attitude, y = points, col = gender))  
+p2 <- p1 + geom_point()  
+p3 <- p2 + geom_smooth(method = "lm")  
+summary(mydata)  
+
+![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/plot1.png)
+
+Summary of the data is presented below. I put the data from R into an Excel spreadsheet, and then in turn saved that as a png in order to get a readable html version.
+
+![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table1.png)
+
+Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them.
+
+
 
 - Describe your work and results clearly. 
 - Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods

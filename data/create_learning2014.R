@@ -43,6 +43,8 @@ surf <- su_lp+su_um+su_sb
 surf <- surf/3
 points <- mydata$Points
 analysis_dataset <- data.frame(gender, age, attitude, deep, stra, surf, points)
+#analysis_dataset <- filter(analysis_dataset, points > 0)
+#analysis_dataset does not work after this, prints all NA values
 a_dataset <- analysis_dataset[apply(analysis_dataset!=0, 1, all),] #I found this solution for excluding
 # zero value observations in StackOverflow. I now have the correct number of observations and variabes, 
 # but this method would exclude all other zero rows too I think...
@@ -61,3 +63,5 @@ head(a_data)
 a_data
 
 # Analysis (max 15 points)
+mydata <- read.csv("learning2014.csv")
+mydata
