@@ -64,4 +64,12 @@ a_data
 
 # Analysis (max 15 points)
 mydata <- read.csv("learning2014.csv")
+mydata <- mydata[-1]
 mydata
+install.packages('ggplot2')
+library(ggplot2)
+p1 <- ggplot(mydata, aes(x = attitude, y = points, col = gender))
+p2 <- p1 + geom_point()
+p3 <- p2 + geom_smooth(method = "lm")
+p3
+summary(mydata)
