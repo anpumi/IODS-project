@@ -148,7 +148,7 @@ $(document).ready(function () {
 <li><a href="#about-the-project">About the project</a><ul>
 <li><a href="#introduction-to-open-data-science">Introduction to Open Data Science</a></li>
 </ul></li>
-<li><a href="#insert-chapter-2-title-here">Insert chapter 2 title here</a></li>
+<li><a href="#regression-and-model-validation">Regression and model validation</a></li>
 </ul>
 </div>
 
@@ -169,9 +169,12 @@ $(document).ready(function () {
 <hr />
 </div>
 </div>
-<div id="insert-chapter-2-title-here" class="section level1">
-<h1>Insert chapter 2 title here</h1>
-<p><em>Describe the work you have done this week and summarize your learning.</em></p>
+<div id="regression-and-model-validation" class="section level1">
+<h1>Regression and model validation</h1>
+<p><em>Below are all the codes, my interpretations and explanations for this week’s data analysis exercises.</em></p>
+<p><em>A brief note about data wrangling that preceded this diary entry. After I filtered my dataset to exclude rows that had zero values for points, almost the whole dataset printed NA values. I found the following solution in StackOverflow:</em></p>
+<p>a_dataset &lt;- analysis_dataset[apply(analysis_dataset!=0, 1, all),]</p>
+<p><em>I now have the correct number of observations and variabes, but this method would exclude all other zero rows too I think…</em></p>
 <ul>
 <li>Describe your work and results clearly.</li>
 <li>Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods</li>

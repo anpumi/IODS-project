@@ -1,6 +1,12 @@
-# Insert chapter 2 title here
+# Regression and model validation
 
-*Describe the work you have done this week and summarize your learning.*
+*Below are all the codes, my interpretations and explanations for this week's data analysis exercises.*
+
+*A brief note about data wrangling that preceded this diary entry. After I filtered my dataset to exclude rows that had zero values for points, almost the whole dataset printed NA values. I found the following solution in StackOverflow:* 
+
+a_dataset <- analysis_dataset[apply(analysis_dataset!=0, 1, all),]
+
+*I now have the correct number of observations and variabes, but this method would exclude all other zero rows too I think...*
 
 - Describe your work and results clearly. 
 - Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
