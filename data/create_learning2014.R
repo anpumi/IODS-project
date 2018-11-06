@@ -73,3 +73,34 @@ p2 <- p1 + geom_point()
 p3 <- p2 + geom_smooth(method = "lm")
 p3
 summary(mydata)
+
+# Choose three variables as explanatory variables and fit a regression model 
+# where exam points is the target (dependent) variable. Show a summary of the 
+# fitted model and comment and interpret the results.
+# https://feliperego.github.io/blog/2015/10/23/Interpreting-Model-Output-In-R
+# Explain and interpret the 
+# statistical test related to the model parameters. If an explanatory variable 
+# in your model does not have a statistically significant relationship with the 
+# target variable, remove the variable from the model and fit the model again 
+# without it.
+
+# The p-values for the coefficients indicate whether these relationships are 
+# statistically significant. Keeping variables that are not statistically 
+# significant can reduce the model's precision.
+
+# The best model is found by minimizing the prediction errors that the model
+# would make, by minimizing the sum of squared residuals.
+
+# good explanation for the interpretation of the results:
+# http://statisticsbyjim.com/regression/interpret-coefficients-p-values-regression/
+my_model <- lm(points ~ age + attitude + stra, data = mydata)
+summary(my_model)
+
+my_model.res = resid(my_model) #checking that the residual plot is random
+plot(mydata$attitude, my_model.res)
+
+my_model <- lm(points ~ attitude, data = mydata)
+summary(my_model)
+
+my_model <- lm(attitude ~ points, data = mydata)
+summary(my_model)

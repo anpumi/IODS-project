@@ -13,14 +13,14 @@ To read the previously wrangled data from my local folder into R:
 mydata <- read.csv("learning2014.csv")
 
 The dataset is a combination of certain variables from a survey dataset. The survey examined the relationship between learning approaches and the achievements of students. All combination variables were scaled to the original scales. Observations where the exam points variable is zero (student did not sit the exam) were excluded to remove outliers.
-The (combination) variables included are: 
-- gender
-- age
-- attitude (Global attitude toward statistics)
-- deep (measures deep learning)
-- stra (measures strategic learning)
-- surf (measures surface learning)
-- points (points from the exam)
+The (combination) variables included are:  
+- gender  
+- age  
+- attitude (Global attitude toward statistics)  
+- deep (measures deep learning)  
+- stra (measures strategic learning)  
+- surf (measures surface learning)  
+- points (points from the exam)  
 
 Here is the code I wrote to begin the graphical overview of the data,initialized the plot with data and aesthetic mappings, including colours by the variable gender, and showed summaries of the variables in the data:
 
@@ -34,12 +34,27 @@ summary(mydata)
 
 ![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/plot1.png)
 
-Summary of the data is presented below. I put the data from R into an Excel spreadsheet, and then in turn saved that as a png in order to get a readable html version.
+Summary of the data is presented below. I put the data from R into an Excel spreadsheet, and then in turn saved that as a png in order to get a readable html version. This was so time-consuming, though, that I shall just use screen prints after this!
 
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table1.png)
+![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table1.png)  
 
-Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them.
 
+
+The gender split of the respondents was 110 female and 56 male. Their ages ranged from 17 to 55, with an average age 25.51. The variable "attitude" is a combination variable of 10 variables and measures a global attitude toward statistics. The next three variables, deep approach (deep), strategic approach (stra) and surface approach (surf) are likewise combinatory variables and they have been scaled to the original scales. The average of attitude is 3.143, deep 3.68, strategic 3.121 and surface 2.787. The variable points shows the number of points the student achieved in an exam, and the average was 22.72.
+
+For my model I chose the variables age, attitude and strategic learning as explanatory variables and the target variable is points. A summary of the fitted model is shown below.
+
+![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table2.png)
+
+The p-values for the coefficients indicate whether these relationships are statistically significant. The model above shows the variables with their significance levels. Age and strategic havr a significance level of 0.1, which, while being larger than the more or less generally accepted level of 0.05, still shows some significance. However, as keeping variables that are not statistically very significant can reduce the model's precision, I will therefore only include attitude with its significance code of 0 in my re-fitted model. The new model is shown below.
+
+![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table3.png)
+
+The relationship between the target variable points and my one chosen explanatory variable attitude is a strong one as the model shows a significance code of 0. 
+
+4. Using a summary of your fitted model, explain the relationship between the chosen explanatory variables and the target variable (interpret the model parameters). Explain and interpret the multiple R squared of the model. (0-3 points)
+
+5. Produce the following diagnostic plots: Residuals vs Fitted values, Normal QQ-plot and Residuals vs Leverage. Explain the assumptions of the model and interpret the validity of those assumptions based on the diagnostic plots. 
 
 
 - Describe your work and results clearly. 
