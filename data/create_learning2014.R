@@ -99,8 +99,9 @@ summary(my_model)
 my_model.res = resid(my_model) #checking that the residual plot is random
 plot(mydata$attitude, my_model.res)
 
-my_model <- lm(points ~ attitude, data = mydata)
+my_model <- lm(points ~ attitude + stra, data = mydata)
 summary(my_model)
 
-my_model <- lm(attitude ~ points, data = mydata)
-summary(my_model)
+par(mfrow = c(2,2))
+plot(my_model, which = c(1:2, 5))
+
