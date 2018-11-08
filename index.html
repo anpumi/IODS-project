@@ -145,16 +145,17 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#about-the-project">About the project</a><ul>
+<li><a href="#about-the-project">1. About the project</a><ul>
 <li><a href="#introduction-to-open-data-science">Introduction to Open Data Science</a></li>
 </ul></li>
-<li><a href="#regression-and-model-validation">Regression and model validation</a></li>
+<li><a href="#regression-and-model-validation">2. Regression and model validation</a></li>
+<li><a href="#logistic-regression">3. Logistic regression</a></li>
 </ul>
 </div>
 
 <hr />
 <div id="about-the-project" class="section level1">
-<h1>About the project</h1>
+<h1>1. About the project</h1>
 <div id="introduction-to-open-data-science" class="section level2">
 <h2>Introduction to Open Data Science</h2>
 <p>This 7-week course, as described in Kimmo Vehkalahti’s blog, is</p>
@@ -170,7 +171,7 @@ $(document).ready(function () {
 </div>
 </div>
 <div id="regression-and-model-validation" class="section level1">
-<h1>Regression and model validation</h1>
+<h1>2. Regression and model validation</h1>
 <p><em>Below are all the codes, my interpretations and explanations for this week’s data analysis exercises.</em></p>
 <p><em>A brief note about data wrangling that preceded this diary entry. After I filtered my dataset to exclude rows that had zero values for points, almost the whole dataset printed NA values. I found the following solution in StackOverflow:</em></p>
 <p>a_dataset &lt;- analysis_dataset[apply(analysis_dataset!=0, 1, all),]</p>
@@ -231,6 +232,11 @@ plot(my_model, which = c(1:2, 5))</p>
 <p>The homoscedasticity assumption (assumption 4.) implies that the size of the errors should not depend on the explanatory variables. This can be explored with the residuals vs fitted plot. As we can see from the first plot, there is a reasonably random placement of plots with no discernible pattern, and therefore the assumption is valid.</p>
 <p>The last plot, residuals vs leverage, can help determine which observations have an unusually high impact on the model (assumption 3.). As we can observe from the plot, there is no single outlier that stands out, and therefore we can conclude that this assumption is valid.</p>
 <p>After this graphical exploration we can conclude that the validity of the model assumptions is good.</p>
+<hr />
+</div>
+<div id="logistic-regression" class="section level1">
+<h1>3. Logistic regression</h1>
+<p><em>Below are all the codes, my interpretations and explanations for this week’s data analysis exercises.</em></p>
 <hr />
 </div>
 

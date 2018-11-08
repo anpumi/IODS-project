@@ -1,4 +1,4 @@
-# Regression and model validation
+# 2. Regression and model validation
 
 *Below are all the codes, my interpretations and explanations for this week's data analysis exercises.*
 

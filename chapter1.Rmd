@@ -1,5 +1,5 @@
 
-# About the project
+# 1. About the project
 
 ## Introduction to Open Data Science
 
