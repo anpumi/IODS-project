@@ -178,4 +178,6 @@ Use logistic regression to statistically explore the relationship between your c
 
 Present and interpret a summary of the fitted model. DONE
 
-Present and interpret the coefficients of the model as odds ratios and provide confidence intervals for them. Interpret the results and compare them to your previously stated hypothesis. 
+Present and interpret the coefficients of the model as odds ratios and provide confidence intervals for them (presented, not interpreted!!). 
+
+Interpret the results and compare them to your previously stated hypothesis. 
