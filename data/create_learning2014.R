@@ -56,7 +56,7 @@ a_dataset <- analysis_dataset[apply(analysis_dataset!=0, 1, all),] #I found this
 # You can name the data set for example as learning2014(.txt or .csv). See ?write.csv for help or search the 
 # web for pointers and examples. Demonstrate that you can also read the data again by using read.table() or 
 # read.csv().  (Use `str()` and `head()` to make sure that the structure of the data is correct). 
-write.csv(a_dataset, file = "learning2014.csv")
+write.csv(a_dataset, file = "learning2014.csv",append = TRUE, quote = TRUE, sep = " ",eol = "\n", na = "NA", dec = ",", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
 a_data <- read.csv("learning2014.csv")
 str(a_data)
 head(a_data)
@@ -64,8 +64,6 @@ a_data
 
 # Analysis (max 15 points)
 mydata <- read.csv("learning2014.csv")
-mydata <- mydata[-1]
-mydata
 install.packages('ggplot2')
 library(ggplot2)
 p1 <- ggplot(mydata, aes(x = attitude, y = points, col = gender))

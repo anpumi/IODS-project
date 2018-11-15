@@ -2,4 +2,180 @@
 
 *Below are all the codes, my interpretations and explanations for this week's data analysis exercises.*
 
+The data for this exercise was downloaded from the UC Irvine Machine Learning Repository. 
 
+The data are two student performance data sets that approach student achievement in secondary education of two schools in Portugal. The data variables include student grades, as well as demographic, social and school related features. The data was collated using school reports and questionnaires. The two datasets that analyze the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por).
+
+In the data wrangling exercise (which can be found in my [GitHub repository](https://github.com/msnxt/IODS-project/blob/master/create_alc.R)) performed prior to this report, the two data sets were combined using a number of variables as student identifiers. Only the students present in both data sets were kept. Next, the average of the answers related to weekday and weekend alcohol consumption was taken to create a new variable 'alc_use'. Then 'alc_use' was used to create a new logical column 'high_use' (TRUE for students whose 'alc_use' is greater than 2 and FALSE otherwise). 
+
+Citation:  
+P. Cortez and A. Silva. Using Data Mining to Predict Secondary School Student Performance. In A. Brito and J. Teixeira Eds., Proceedings of 5th FUture BUsiness TEChnology Conference (FUBUTEC 2008) pp. 5-12, Porto, Portugal, April, 2008, EUROSIS, ISBN 978-9077381-39-7. 
+
+
+### Part 1
+
+For the first part of this analysis I created a new RMarkdown file and save it as an empty file named 'chapter3.Rmd'. Then I included this file as a child file in my 'index.Rmd' file, and as a result you are now reading this.
+
+
+### Part 2
+
+Read the joined student alcohol consumption data into R:
+
+```{r}
+alc <- read.table("create_alc.csv", sep = "," , header=TRUE)
+```
+
+Next, I will print out the names of the variables in the data:
+
+```{r}
+colnames(alc)
+
+```
+
+The data set consists of 382 observations of 35 variables. The variables are a combination of numeric, nominal and binary attributes.
+
+
+### Part 3
+
+For this part, in order to study the relationship between high or low alcohol consumption, I chose the following 4 variables from the data, including my personal hypothesis for each variable:  
+1. `age` - I hypothesize that higher age will correlate with high alcohol consumption.  
+2. `failures` - indicating the number of past class failures. My hypothesis is that a high number of failures correlates with high alcohol use.  
+3. `famrel` - indicator for the quality of family relations. Better family relations will mean lower alcohol consumption and conversely worse relations will correlate with higher alcohol use.  
+4. `absences` - number of school absences. A higher number of absences will relate to high alcohol consumption.
+
+
+### Part 4
+
+Next, I accessed some R packages that I will need shortly, and I also created a mini-dataset called `alc_dataset`. This mini-dataset will allow me to represent just the data I chose for my analysis.
+
+Accessing packages dplyr and ggplot2:
+
+```{r}
+library(dplyr); library(ggplot2)
+```
+
+Creating `alc_dataset`:
+
+```{r}
+alc_use <- alc$alc_use
+high_use <- alc$high_use
+age <- alc$age
+failures <- alc$failures
+famrel <- alc$famrel
+absences <- alc$absences
+alc_dataset <- data.frame(alc_use, age, failures, famrel, absences)
+summary(alc_dataset)
+```
+
+Above is the initial numeric summary for all the variables that I chose. This does not tell us anything when it comes to the relationships between the variables, but it is a nice neat summary of the distribution of each variable.
+
+
+Before we get into the logistic regression in part 5 below, let's look at some numerical (summaries by group using the pipe operator) and graphical (box plot) representations of the data. Here, I will compare the variable `high_use` with variables `age`, `failures`, `famrel`, and `absences`.
+
+
+#### Variable `age`
+
+
+```{r}
+alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_age = mean(age))
+```
+
+
+```{r}
+# barplot
+g1a <- ggplot(data=alc, aes(x=age, y=consumption)) +
+geom_bar(stat="identity")
+
+# initialise a plot of high_use and age
+g1 <- ggplot(alc, aes(x = high_use, y = age, col = sex))
+ 
+ # define the plot as a boxplot and draw it
+g1 + geom_boxplot() + ggtitle("Student ages by alcohol consumption and sex")
+```
+  
+The numerical representation and the plot above quite clearly shows that my first hypothesis, concerning age, was largely rubbish. Moving on!
+
+  
+#### Variable `failures`
+
+  
+```{r}
+alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_failures = mean(failures))
+```
+
+
+```{r}
+# initialise a plot of high_use and failures
+g2 <- ggplot(alc, aes(x = high_use, y = failures, col = sex))
+ 
+ # define the plot as a boxplot and draw it
+ g2 + geom_boxplot() + ggtitle("Student failures by alcohol consumption and sex")
+```
+
+The analysis of `failures` shows that, regardless of the rather useless box plot, my hypothesis was in the right track. In both males and females, the mean failures of those having high alcohol use was considerably more than the mean failures of those not having high alcohol use. In males, the difference between mean failures of high and low alcohol users, at 0.196, is higher than the difference, 0.171, in females. This is starting to point toward the fact that perhaps I should have hypothesized that being male is a factor in high alcohol use.
+
+
+#### Variable `famrel`
+
+
+```{r}
+alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_famrel = mean(famrel))
+```
+
+
+```{r}
+# initialise a plot of high_use and family relationships
+g3 <- ggplot(alc, aes(x = high_use, y = famrel, col = sex))
+ 
+ # define the plot as a boxplot and draw it
+ g3 + geom_boxplot() + ggtitle("Student family relationships by alcohol consumption and sex")
+```
+
+The analysis of `famrel` also shows that my hypothesis was not incorrect. In both sexes, the mean family relationships score of those having high alcohol use was lower than the mean failures of those not having high alcohol use. Here, a difference between the sexes is also evident, albeit in a manner rather different from the variable `failures`. The mean family relationship scores for the high alcohol users in both sexes was about the same, whereas, rather interrestingly, the family relationships score was better for males in the low alcohol use group.
+
+
+#### Variable `absences`
+
+
+```{r}
+alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_absences = mean(absences))
+```
+
+```{r}
+# initialise a plot of high_use and absences
+g4 <- ggplot(alc, aes(x = high_use, y = absences, col = sex))
+ 
+ # define the plot as a boxplot and draw it
+ g4 + geom_boxplot() + ggtitle("Student absences by alcohol consumption and sex")
+```
+
+The analysis of `absences` shows that my hypothesis was correct: a higher number of absences does indeed correlate with high alcohol consumption. Again, the differences between the sexes in striking. The mean absences for both male and female high alcohol users are around the same ballpark, but the mean absence figures for low alcohol users differs dramatically between the sexes: 2.982 for the males and 4.224 for the females. This not only indicates that females generally have more school absences, but also that in males the introduction of high alcohol use dramatically increases the mean number of absences.
+
+
+### Part 5
+
+Next, I will use logistic regression to explore the relationship between my chosen variables and the binary variable `high_use`. This is done by using `glm()` to fit a logictic regression model. I will also print a summary of the model and I will use `coef()` to print out the coefficients of my model.
+
+```{r}
+model <- glm(high_use ~ age + failures + famrel + absences, data = alc, family = "binomial")
+summary(model)
+coef(model)
+```
+
+In the fitted model, `absences` shows a significance level `***`, or less than 0.0001 (0.1%) and it is therefore statistically significant. `failures` is also significant with ´*´ a significance level of around 0.2%. ´famrel´is close to the generally accepted significance level of 5%, whereas, as previously observed, age is not statistically significant.
+
+Now I will create the object OR (odds ratios) by using ´coef()´ on the model object to extract the coefficients of the model and then apply the ´exp´ function on the coefficients. The next step is to use ´confint()´ on the model  to compute confidence intervals for the coefficients. I will exponentiate the values and assign the results to the object ´CI´. Finally, I will combine ´cbind` and print out the odds ratios and their confidence intervals.
+
+```{r}
+OR <- coef(model) %>% exp
+CI <- confint(model) %>% exp
+cbind(OR, CI)
+
+```
+
+
+Use logistic regression to statistically explore the relationship between your chosen variables and the binary high/low alcohol consumption variable as the target variable. DONE
+
+Present and interpret a summary of the fitted model. DONE
+
+Present and interpret the coefficients of the model as odds ratios and provide confidence intervals for them. Interpret the results and compare them to your previously stated hypothesis. 
