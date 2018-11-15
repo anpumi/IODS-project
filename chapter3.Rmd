@@ -19,13 +19,13 @@ For the first part of this analysis I created a new RMarkdown file and save it a
 
 ### Part 2
 
-Read the joined student alcohol consumption data into R:
+I read the joined student alcohol consumption data into R from my local folder.
 
 ```{r}
 alc <- read.table("create_alc.csv", sep = "," , header=TRUE)
 ```
 
-Next, I will print out the names of the variables in the data:
+Next, I printed out the names of the variables in the data.
 
 ```{r}
 colnames(alc)
@@ -162,9 +162,9 @@ summary(model)
 coef(model)
 ```
 
-In the fitted model, `absences` shows a significance level `***`, or less than 0.0001 (0.1%) and it is therefore statistically significant. `failures` is also significant with ´*´ a significance level of around 0.2%. ´famrel´is close to the generally accepted significance level of 5%, whereas, as previously observed, age is not statistically significant.
+In the fitted model, `absences` shows a significance level `***`, or less than 0.0001 (0.1%) and it is therefore statistically significant. `failures` is also significant with `*` a significance level of around 0.2%. `famrel` is close to the generally accepted significance level of 5%, whereas, as previously observed, `age` is not statistically significant.
 
-Now I will create the object OR (odds ratios) by using ´coef()´ on the model object to extract the coefficients of the model and then apply the ´exp´ function on the coefficients. The next step is to use ´confint()´ on the model  to compute confidence intervals for the coefficients. I will exponentiate the values and assign the results to the object ´CI´. Finally, I will combine ´cbind` and print out the odds ratios and their confidence intervals.
+Now I will create the object OR (odds ratios) by using `coef()` on the model object to extract the coefficients of the model and then apply the `exp` function on the coefficients. The next step is to use `confint()` on the model  to compute confidence intervals for the coefficients. I will exponentiate the values and assign the results to the object `CI`. Finally, I will combine `cbind` and print out the odds ratios and their confidence intervals.
 
 ```{r}
 OR <- coef(model) %>% exp
