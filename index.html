@@ -248,9 +248,9 @@ P. Cortez and A. Silva. Using Data Mining to Predict Secondary School Student Pe
 </div>
 <div id="part-2" class="section level3">
 <h3>Part 2</h3>
-<p>Read the joined student alcohol consumption data into R:</p>
+<p>I read the joined student alcohol consumption data into R from my local folder.</p>
 <pre class="r"><code>alc &lt;- read.table(&quot;create_alc.csv&quot;, sep = &quot;,&quot; , header=TRUE)</code></pre>
-<p>Next, I will print out the names of the variables in the data:</p>
+<p>Next, I printed out the names of the variables in the data.</p>
 <pre class="r"><code>colnames(alc)</code></pre>
 <pre><code>##  [1] &quot;school&quot;     &quot;sex&quot;        &quot;age&quot;        &quot;address&quot;    &quot;famsize&quot;   
 ##  [6] &quot;Pstatus&quot;    &quot;Medu&quot;       &quot;Fedu&quot;       &quot;Mjob&quot;       &quot;Fjob&quot;      
@@ -422,8 +422,8 @@ summary(model)</code></pre>
 <pre class="r"><code>coef(model)</code></pre>
 <pre><code>## (Intercept)         age    failures      famrel    absences 
 ## -2.73937782  0.13989709  0.43634997 -0.23848933  0.08040375</code></pre>
-<p>In the fitted model, <code>absences</code> shows a significance level <code>***</code>, or less than 0.0001 (0.1%) and it is therefore statistically significant. <code>failures</code> is also significant with ´*´ a significance level of around 0.2%. ´famrel´is close to the generally accepted significance level of 5%, whereas, as previously observed, age is not statistically significant.</p>
-<p>Now I will create the object OR (odds ratios) by using ´coef()´ on the model object to extract the coefficients of the model and then apply the ´exp´ function on the coefficients. The next step is to use ´confint()´ on the model to compute confidence intervals for the coefficients. I will exponentiate the values and assign the results to the object ´CI´. Finally, I will combine ´cbind` and print out the odds ratios and their confidence intervals.</p>
+<p>In the fitted model, <code>absences</code> shows a significance level <code>***</code>, or less than 0.0001 (0.1%) and it is therefore statistically significant. <code>failures</code> is also significant with <code>*</code> a significance level of around 0.2%. <code>famrel</code> is close to the generally accepted significance level of 5%, whereas, as previously observed, <code>age</code> is not statistically significant.</p>
+<p>Now I will create the object OR (odds ratios) by using <code>coef()</code> on the model object to extract the coefficients of the model and then apply the <code>exp</code> function on the coefficients. The next step is to use <code>confint()</code> on the model to compute confidence intervals for the coefficients. I will exponentiate the values and assign the results to the object <code>CI</code>. Finally, I will combine <code>cbind</code> and print out the odds ratios and their confidence intervals.</p>
 <pre class="r"><code>OR &lt;- coef(model) %&gt;% exp
 CI &lt;- confint(model) %&gt;% exp</code></pre>
 <pre><code>## Waiting for profiling to be done...</code></pre>
