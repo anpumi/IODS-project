@@ -406,7 +406,7 @@ g + geom_point()</code></pre>
 }
 loss_func(class = alc$high_use, prob = alc$probability)</code></pre>
 <pre><code>## [1] 0.2539267</code></pre>
-<p>The training error is approximately 25%.</p>
+<p>The training error is approximately 0.25.</p>
 <p>Using the variables which, according to your logistic regression model, had a statistical relationship with high/low alcohol consumption, explore the predictive power of you model. DONE</p>
 <p>Provide a 2x2 cross tabulation of predictions versus the actual values and optionally display a graphic visualizing both the actual values and the predictions. DONE</p>
 <p>Compute the total proportion of inaccurately classified individuals (= the training error) DONE</p>
@@ -415,7 +415,28 @@ loss_func(class = alc$high_use, prob = alc$probability)</code></pre>
 </div>
 <div id="part-7---bonus" class="section level3">
 <h3>Part 7 - Bonus</h3>
-<p>Perform 10-fold cross-validation on your model. Does your model have better test set performance (smaller prediction error using 10-fold cross-validation) compared to the model introduced in DataCamp (which had about 0.26 error). Could you find such a model?</p>
+<p>As a bonus I will perform a 10-old cross-validation on my model. This is done with the so-called K-fold validation, where K is the number of folds.</p>
+<pre class="r"><code># K-fold cross-validation
+library(boot)
+cv &lt;- cv.glm(data = alc, cost = loss_func, glmfit = model, K = 10)
+
+# average number of wrong predictions in the cross validation
+cv$delta[1]</code></pre>
+<pre><code>## [1] 0.2617801</code></pre>
+<p>My model has a very slightly better test set performance than the model that was introduced in DataCamp: 0.2617801 versus 0.2617801.</p>
+<p>Now, the challenge is to find an even better model. Let’s discard <code>famrel</code> from the model.</p>
+<pre class="r"><code>model2 &lt;- glm(high_use ~ sex + failures + absences, data = alc, family = &quot;binomial&quot;)
+loss_func &lt;- function(class, prob) {
+  n_wrong &lt;- abs(class - prob) &gt; 0.5
+  mean(n_wrong)
+}
+loss_func(class = alc$high_use, prob = alc$probability)</code></pre>
+<pre><code>## [1] 0.2539267</code></pre>
+<pre class="r"><code>library(boot)
+cv &lt;- cv.glm(data = alc, cost = loss_func, glmfit = model2, K = 10)
+cv$delta[1]</code></pre>
+<pre><code>## [1] 0.2486911</code></pre>
+<p>By removing <code>famrel</code> from the model, we achieve a better test set performance than before at 0.2591623.</p>
 </div>
 <div id="part-8---super-bonus" class="section level3">
 <h3>Part 8 - Super-Bonus</h3>

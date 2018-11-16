@@ -231,7 +231,7 @@ loss_func <- function(class, prob) {
 loss_func(class = alc$high_use, prob = alc$probability)
 ```
 
-The training error is approximately 25%. 
+The training error is approximately 0.25. 
 
 Using the variables which, according to your logistic regression model, had a statistical relationship with high/low alcohol consumption, explore the predictive power of you model. DONE
 
@@ -245,7 +245,36 @@ Compare the performance of the model with performance achieved by some simple gu
 
 ### Part 7 - Bonus
 
-Perform 10-fold cross-validation on your model. Does your model have better test set performance (smaller prediction error using 10-fold cross-validation) compared to the model introduced in DataCamp (which had about 0.26 error). Could you find such a model?
+As a bonus I will perform a 10-old cross-validation on my model. This is done with the so-called K-fold validation, where K is the number of folds.
+
+
+```{r}
+# K-fold cross-validation
+library(boot)
+cv <- cv.glm(data = alc, cost = loss_func, glmfit = model, K = 10)
+
+# average number of wrong predictions in the cross validation
+cv$delta[1]
+```
+
+My model has a very slightly better test set performance than the model that was introduced in DataCamp: 0.2617801 versus 0.2617801.
+
+Now, the challenge is to find an even better model. Let's discard `famrel` from the model.
+
+```{r}
+model2 <- glm(high_use ~ sex + failures + absences, data = alc, family = "binomial")
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+loss_func(class = alc$high_use, prob = alc$probability)
+library(boot)
+cv <- cv.glm(data = alc, cost = loss_func, glmfit = model2, K = 10)
+cv$delta[1]
+```
+
+By removing `famrel` from the model, we achieve a better test set performance than before at 0.2591623.
+
 
 ### Part 8 - Super-Bonus
 
