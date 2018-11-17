@@ -211,15 +211,14 @@ select(alc, failures, absences, famrel, sex, high_use, probability, prediction) 
 table(high_use = alc$high_use, prediction = alc$prediction)
 ```
 
-This code gives us both the `data.frame` with all the values from ten observations. R console gives us the 2x2 cross tabulation. 
-
-Let's also draw a plot to examine the predictions and create a cross table of `high_use` versus `prediction`
+Let's also draw a plot to examine the predictions and create a cross table of `high_use` versus `prediction`.
 
 ```{r}
 g <- ggplot(alc, aes(x = probability, y = high_use, col = prediction))
 g + geom_point()
 table(high_use = alc$high_use, prediction = alc$prediction) %>% prop.table %>% addmargins
 ```
+The table above illustrates how accurate my predictions are. By adding the figures for high_use being FALSE while the model is predicting TRUE and high_use being TRUE while the model predicts FALSE we can calculate the percentage of all cases where my model would be wrong: 19.9%. Therefore, the model would be right roughly 80% of the time, which is much better a result than we would achieve by simple guessing with equal weights. The greatest delta between the number of observed and expected respondents is FALSE and FALSE at 63.9%, and my model comfortably outperforms this too, indicating that my model has some validity.
 
 The next task at hand is accuracy and loss functions. I will compute the total proportion of inaccurately classified individuals, in other words the training error. The loss function `loss_func` is defined and called to compute the average number of wrong predictions in the (training) data.
 
@@ -231,21 +230,12 @@ loss_func <- function(class, prob) {
 loss_func(class = alc$high_use, prob = alc$probability)
 ```
 
-The training error is approximately 0.25. 
+The training error for this model is approximately 0.254, while the test error is calculated in the following section. 
 
-Using the variables which, according to your logistic regression model, had a statistical relationship with high/low alcohol consumption, explore the predictive power of you model. DONE
-
-Provide a 2x2 cross tabulation of predictions versus the actual values and optionally display a graphic visualizing both the actual values and the predictions. DONE
-
-Compute the total proportion of inaccurately classified individuals (= the training error) DONE
-
-and comment on all the results. 
-
-Compare the performance of the model with performance achieved by some simple guessing strategy
 
 ### Part 7 - Bonus
 
-As a bonus I will perform a 10-old cross-validation on my model. This is done with the so-called K-fold validation, where K is the number of folds.
+As a bonus I will perform a 10-old cross-validation on my model. This tells us the testing errors, as opposed to the training errors above.
 
 
 ```{r}
@@ -257,25 +247,237 @@ cv <- cv.glm(data = alc, cost = loss_func, glmfit = model, K = 10)
 cv$delta[1]
 ```
 
-My model has a very slightly better test set performance than the model that was introduced in DataCamp: 0.2617801 versus 0.2617801.
+My model has a very slightly better test set performance than the model that was introduced in DataCamp: 0.2617801 versus 0.2643979. The testing error of my model is higher than my training error. A lower training error is expected when a method easily overfits to the training data. 
 
-Now, the challenge is to find an even better model. Let's discard `famrel` from the model.
+### Part 8 - Super-Bonus
+
+As a super-bonus I will perform cross-validation to compare the performance of different logistic regression models. I will start with the following 20 predictors: `sex`, `address`, `famsize`, `Pstatus`, `Medu`, `Fedu`, `Mjob`, `Fjob`,  `guardian`, `studytime`, `failures`, `schoolsup`, `famsup`, `activities`, `higher`, `romantic`, `famrel`, `goout`, `health`, and `absences`.
 
 ```{r}
-model2 <- glm(high_use ~ sex + failures + absences, data = alc, family = "binomial")
+alc_use <- alc$alc_use
+high_use <- alc$high_use
+sex <- alc$sex
+address <- alc$address
+famsize <- alc$famsize
+Pstatus <- alc$Pstatus
+Medu <- alc$Medu
+Fedu <- alc$Fedu
+Mjob <- alc$Mjob
+Fjob <- alc$Fjob
+guardian <- alc$guardian
+studytime <- alc$studytime
+failures <- alc$failures
+schoolsup <- alc$schoolsup
+famsup <- alc$famsup
+activities <- alc$activities
+higher <- alc$higher
+romantic <- alc$romantic
+famrel <- alc$famrel
+goout <- alc$goout
+health <- alc$health
+absences <- alc$absences
+
+model_20 <- glm(high_use ~ sex + address + famsize + Pstatus + Medu + Fedu + Mjob + Fjob + guardian + studytime + failures + schoolsup + famsup + activities + higher + romantic + famrel + goout + health + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_20, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
 loss_func <- function(class, prob) {
   n_wrong <- abs(class - prob) > 0.5
   mean(n_wrong)
 }
-loss_func(class = alc$high_use, prob = alc$probability)
-library(boot)
-cv <- cv.glm(data = alc, cost = loss_func, glmfit = model2, K = 10)
-cv$delta[1]
+t_er_20 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_20
+
+cv_20 <- cv.glm(data = alc, cost = loss_func, glmfit = model_20, K = 10)
+ts_er_20 <- cv_20$delta[1]
+ts_er_20
 ```
 
-By removing `famrel` from the model, we achieve a better test set performance than before at 0.2591623.
+Let's see what happens when we reduce the number of predictors to 15.
 
+I will leave out `higher`, `famsup`, `schoolsup`, `Medu` and `Fedu` from the next model, leaving me with 15 predictors.
 
-### Part 8 - Super-Bonus
+```{r}
+model_15 <- glm(high_use ~ sex + address + famsize + Pstatus + Mjob + Fjob + guardian + studytime + failures + activities + romantic + famrel + goout + health + absences, data = alc, family = "binomial")
 
-Perform cross-validation to compare the performance of different logistic regression models (= different sets of predictors). Start with a very high number of predictors and explore the changes in the training and testing errors as you move to models with less predictors. Draw a graph displaying the trends of both training and testing errors by the number of predictors in the model.
+probabilities <- predict(model_15, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_15 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_15
+
+cv_15 <- cv.glm(data = alc, cost = loss_func, glmfit = model_15, K = 10)
+ts_er_15 <- cv_15$delta[1]
+ts_er_15
+```
+
+Now I will reduce the number of predictors to 10.
+
+I will leave out `famsize`, `Pstatus`, `Mjob`, `Fjob` and `romantic` from the next model, leaving me with 10 predictors.
+
+```{r}
+model_10 <- glm(high_use ~ sex + address + guardian + studytime + failures + activities + famrel + goout + health + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_10, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_10 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_10
+
+cv_10 <- cv.glm(data = alc, cost = loss_func, glmfit = model_10, K = 10)
+ts_er_10 <- cv_10$delta[1]
+ts_er_10
+```
+
+Now I will reduce the number of predictors to 6.
+
+I will take out 4 predictors (`activities`, `guardian`, `failures` and `health`). 
+
+```{r}
+model_6 <- glm(high_use ~ sex + address + studytime + famrel + goout + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_6, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_6 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_6
+
+cv_6 <- cv.glm(data = alc, cost = loss_func, glmfit = model_6, K = 10)
+ts_er_6 <- cv_6$delta[1]
+ts_er_6
+```
+
+I will now take out the predictors one by one, until I reach 1.
+
+```{r}
+model_5 <- glm(high_use ~ sex + studytime + famrel + goout + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_5, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_5 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_5
+
+cv_5 <- cv.glm(data = alc, cost = loss_func, glmfit = model_5, K = 10)
+ts_er_5 <- cv_5$delta[1]
+ts_er_5
+```
+ 
+```{r}
+model_4 <- glm(high_use ~ sex + famrel + goout + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_4, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_4 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_4
+
+cv_4 <- cv.glm(data = alc, cost = loss_func, glmfit = model_4, K = 10)
+ts_er_4 <- cv_4$delta[1]
+ts_er_4
+```
+
+```{r}
+model_3 <- glm(high_use ~ sex + goout + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_3, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_3 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_3
+
+cv_3 <- cv.glm(data = alc, cost = loss_func, glmfit = model_3, K = 10)
+ts_er_3 <- cv_3$delta[1]
+ts_er_3
+```
+
+```{r}
+model_2 <- glm(high_use ~ sex + absences, data = alc, family = "binomial")
+
+probabilities <- predict(model_2, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_2 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_2
+
+cv_2 <- cv.glm(data = alc, cost = loss_func, glmfit = model_2, K = 10)
+ts_er_2 <- cv_2$delta[1]
+ts_er_2
+```
+```{r}
+model_1 <- glm(high_use ~ sex, data = alc, family = "binomial")
+
+probabilities <- predict(model_1, type = "response")
+alc <- mutate(alc, probability = probabilities)
+alc <- mutate(alc, prediction = probability > 0.5)
+
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+t_er_1 <- loss_func(class = alc$high_use, prob = alc$probability)
+t_er_1
+
+cv_1 <- cv.glm(data = alc, cost = loss_func, glmfit = model_1, K = 10)
+ts_er_1 <- cv_1$delta[1]
+ts_er_1
+```
+
+Finally, I drew a simple graph that displays the trends of both training and testing errors by the number of predictors in the model.
+
+```{r}
+t_er<-c(t_er_1,t_er_2,t_er_3,t_er_4,t_er_5,t_er_6,t_er_10,t_er_15,t_er_20)
+
+ts_er<-c(ts_er_1,ts_er_2,ts_er_3,ts_er_4,ts_er_5,ts_er_6,ts_er_10,ts_er_15,ts_er_20)
+
+plot(t_er, type="o", col="blue", xlab="Number of predictors / model complexity", ylab="Prediction error")
+lines(ts_er, type="o", col="red")
+axis(1, at=1:9, lab=c("1","2","3","4","5","6","10","15","20"))
+title(main="Training and test errors by number of predictors")
+legend("topright", c("training error","test error"),lty=c(1,1), lwd=c(2.5,2.5),col=c("blue","red")) 
+
+```
+
+Overfitting will occur as soon as the test error starts to increase while the training error is still decreasing. In my model the sweet spot is at 10 predictors, anything more than that and the model will overfit, possibly as it is too complex (possibly, because there are many more reasons for overfitting).
+
+To the left of the graph are situations where the model is low in complexity and has high bias and low variance.
+To the right of the graph are situations where the model is high in complexity and has low bias and high variance.
+
+That's all for this week - I'm already looking forward to next week's tasks!

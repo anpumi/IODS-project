@@ -74,7 +74,3 @@ alc_data <- read.table("create_alc.csv", sep = ";" , header=TRUE)
 alc_data
 
 ## ~ ~ End of Data Wrangling ~ ~
-
-OR <- coef(model) %>% exp
-CI <- confint(model) %>% exp
-cbind(OR, CI)
