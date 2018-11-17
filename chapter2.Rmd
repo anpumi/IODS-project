@@ -10,7 +10,9 @@ a_dataset <- analysis_dataset[apply(analysis_dataset!=0, 1, all),]
 
 To read the previously wrangled data from my local folder into R:
 
+```{r}
 mydata <- read.csv("learning2014.csv")
+```
 
 The dataset is a combination of certain variables from a survey dataset. The survey examined the relationship between learning approaches and the achievements of students. All combination variables were scaled to the original scales. Observations where the exam points variable is zero (student did not sit the exam) were excluded to remove outliers.
 The (combination) variables included are:  
@@ -22,35 +24,43 @@ The (combination) variables included are:
 - surf (measures surface learning)  
 - points (points from the exam)  
 
-Here is the code I wrote to begin the graphical overview of the data,initialized the plot with data and aesthetic mappings, including colours by the variable gender, and showed summaries of the variables in the data:
+To begin the graphical overview of the data,I initialized the plot with data and aesthetic mappings, including colours by the variable gender, and showed summaries of the variables in the data:
 
-mydata <- read.csv("learning2014.csv")  
-install.packages('ggplot2')  
+ 
+```{r}
 library(ggplot2)  
 p1 <- ggplot(mydata, aes(x = attitude, y = points, col = gender))  
 p2 <- p1 + geom_point()  
-p3 <- p2 + geom_smooth(method = "lm")  
+p3 <- p2 + geom_smooth(method = "lm")
+p3
+```
+
+Summary of the data is presented below.  
+
+```{r}
 summary(mydata)  
-
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/plot1.png)
-
-Summary of the data is presented below. I put the data from R into an Excel spreadsheet, and then in turn saved that as a png in order to get a readable html version. This was so time-consuming, though, that I shall just use screen prints after this!
-
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table1.png)  
-
+```
 
 
 The gender split of the respondents was 110 female and 56 male. Their ages ranged from 17 to 55, with an average age 25.51. The variable "attitude" is a combination variable of 10 variables and measures a global attitude toward statistics. The next three variables, deep approach (deep), strategic approach (stra) and surface approach (surf) are likewise combinatory variables and they have been scaled to the original scales. The average of attitude is 3.143, deep 3.68, strategic 3.121 and surface 2.787. The variable points shows the number of points the student achieved in an exam, and the average was 22.72.
 
-For my model I chose the variables age, attitude and strategic learning as explanatory variables and the target variable is points. A summary of the fitted model is shown below.
+For my model I chose the variables `age`, `attitude` and `stra` as explanatory variables and the target variable is points. A summary of the fitted model is shown below.
 
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table2.png)
+```{r}
+my_model <- lm(points ~ age + attitude + stra, data = mydata)
+summary(my_model)
+```
 
-The p-values for the coefficients indicate whether these relationships are statistically significant. The model above shows the variables with their significance levels. Age and strategic have a significance level of approximately 0.1 and 0.06 respectively, which, while being larger than the more or less generally accepted level of 0.05, still shows some significance. However, as keeping variables that are not statistically very significant can reduce the model's precision, I will therefore only include attitude (with its significance code of 0) and strategic (with the significance level that is very close to 0.05) in my re-fitted model. The new model is shown below.
 
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/table3.png)
+The p-values for the coefficients indicate whether these relationships are statistically significant. The model above shows the variables with their significance levels. Age and strategic have a significance level of approximately 0.1 and 0.06 respectively, which, while being larger than the more or less generally accepted level of 0.05, still shows some significance. However, as keeping variables that are not statistically very significant can reduce the model's precision, I will therefore only include `attitude` (with its significance code of 0) and `stra` (with the significance level that is very close to 0.05) in my re-fitted model. The new model is shown below.
 
-The relationship between the target variable points and the explanatory variable attitude is a strong one as the model shows a significance code of 0. The relationship between points and stratehic is also fairly strong. To explain how well my model fits the data, assessment of R-squared is required. R-squared indicates the percentage of the variance in the dependent variable points that the independent (explanatory) variables explain collectively. In this case the R-squared value is relatively low at approximately 20%, indicating that the fit is not very good. In fact, the multiple R-squared value was higher at approximately 22% in the model that I previously rejected.
+```{r}
+my_model <- lm(points ~ attitude + stra, data = mydata)
+summary(my_model)
+```
+
+
+The relationship between the target variable points and the explanatory variable attitude is a strong one as the model shows a significance code of 0. The relationship between points and strategic is also fairly strong. To explain how well my model fits the data, assessment of R-squared is required. R-squared indicates the percentage of the variance in the dependent variable points that the independent (explanatory) variables explain collectively. In this case the R-squared value is relatively low at approximately 20%, indicating that the fit is not very good. In fact, the multiple R-squared value was higher at approximately 22% in the model that I previously rejected.
 
 The multiple regression model makes the following assumptions:  
 1. The relationship between the independent and dependent variables is linear.  
@@ -60,12 +70,13 @@ The multiple regression model makes the following assumptions:
 
 The validity of these model assumptions can be explored by analyzing the residuals of the model, as in the plots shown below.
 
-To produce the diagnostic plots Residuals vs Fitted values (plot 1), Normal QQ-plot (plot 2) and Residuals vs Leverage (plot 5) we type:  
+To produce the diagnostic plots Residuals vs Fitted values (plot 1), Normal QQ-plot (plot 2) and Residuals vs Leverage (plot 5):  
 
-par(mfrow = c(2,2))  #this line places all the plots in one view  
-plot(my_model, which = c(1:2, 5))  
+```{r}
+par(mfrow = c(2,2)) 
+plot(my_model, which = c(1:2, 5))
+```
 
-![](C:/Users/annuk/OneDrive/Uni of Helsinki/Introduction to Opean Data Science/IODS-project/plot2.png)
 
 The normality assumption (assumption 2. above) can be explored by analyzing the Q-Q plot. The fit to the normality assumption is reasonably good in this case.
 
