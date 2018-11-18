@@ -12,12 +12,12 @@ Citation:
 P. Cortez and A. Silva. Using Data Mining to Predict Secondary School Student Performance. In A. Brito and J. Teixeira Eds., Proceedings of 5th FUture BUsiness TEChnology Conference (FUBUTEC 2008) pp. 5-12, Porto, Portugal, April, 2008, EUROSIS, ISBN 978-9077381-39-7. 
 
 
-### Part 1
+## Part 1 - General Housekeeping
 
 For the first part of this analysis I created a new RMarkdown file and save it as an empty file named 'chapter3.Rmd'. Then I included this file as a child file in my 'index.Rmd' file, and as a result you are now reading this.
 
 
-### Part 2
+## Part 2 - The Data Set
 
 I read the joined student alcohol consumption data into R from my local folder.
 
@@ -35,7 +35,7 @@ colnames(alc)
 The data set consists of 382 observations of 35 variables. The variables are a combination of numeric, nominal and binary attributes.
 
 
-### Part 3
+## Part 3 - Choosing Variables of Interest
 
 For this part, in order to study the relationship between high or low alcohol consumption, I chose the following 4 variables from the data, including my personal hypothesis for each variable:  
 1. `age` - I hypothesize that higher age will correlate with high alcohol consumption.  
@@ -44,7 +44,7 @@ For this part, in order to study the relationship between high or low alcohol co
 4. `absences` - number of school absences. A higher number of absences will relate to high alcohol consumption.
 
 
-### Part 4
+## Part 4 - Exploring the Variables
 
 Next, I accessed some R packages that I will need shortly, and I also created a mini-dataset called `alc_dataset`. This mini-dataset will allow me to represent just the data I chose for my analysis.
 
@@ -73,7 +73,7 @@ Above is the initial numeric summary for all the variables that I chose. This do
 Before we get into the logistic regression in part 5 below, let's look at some numerical (summaries by group using the pipe operator) and graphical (box plot) representations of the data. Here, I will compare the variable `high_use` with variables `age`, `failures`, `famrel`, and `absences`.
 
 
-#### Variable `age`
+### Variable `age`
 
 
 ```{r}
@@ -96,7 +96,7 @@ g1 + geom_boxplot() + ggtitle("Student ages by alcohol consumption and sex")
 The numerical representation and the plot above quite clearly shows that my first hypothesis, concerning age, was largely rubbish. Moving on!
 
   
-#### Variable `failures`
+### Variable `failures`
 
   
 ```{r}
@@ -115,7 +115,7 @@ g2 <- ggplot(alc, aes(x = high_use, y = failures, col = sex))
 The analysis of `failures` shows that, regardless of the rather useless box plot, my hypothesis was in the right track. In both males and females, the mean failures of those having high alcohol use was considerably more than the mean failures of those not having high alcohol use. In males, the difference between mean failures of high and low alcohol users, at 0.196, is higher than the difference, 0.171, in females. This is starting to point toward the fact that perhaps I should have hypothesized that being male is a factor in high alcohol use.
 
 
-#### Variable `famrel`
+### Variable `famrel`
 
 
 ```{r}
@@ -134,7 +134,7 @@ g3 <- ggplot(alc, aes(x = high_use, y = famrel, col = sex))
 The analysis of `famrel` also shows that my hypothesis was not incorrect. In both sexes, the mean family relationships score of those having high alcohol use was lower than the mean failures of those not having high alcohol use. Here, a difference between the sexes is also evident, albeit in a manner rather different from the variable `failures`. The mean family relationship scores for the high alcohol users in both sexes was about the same, whereas, rather interrestingly, the family relationships score was better for males in the low alcohol use group.
 
 
-#### Variable `absences`
+### Variable `absences`
 
 
 ```{r}
@@ -152,7 +152,7 @@ g4 <- ggplot(alc, aes(x = high_use, y = absences, col = sex))
 The analysis of `absences` shows that my hypothesis was correct: a higher number of absences does indeed correlate with high alcohol consumption. Again, the differences between the sexes in striking. The mean absences for both male and female high alcohol users are around the same ballpark, but the mean absence figures for low alcohol users differs dramatically between the sexes: 2.982 for the males and 4.224 for the females. This not only indicates that females generally have more school absences, but also that in males the introduction of high alcohol use dramatically increases the mean number of absences.
 
 
-### Part 5
+## Part 5 - Logistic Regression
 
 Next, I will use logistic regression to explore the relationship between my chosen variables and the binary variable `high_use`. This is done by using `glm()` to fit a logictic regression model. I will also print a summary of the model and I will use `coef()` to print out the coefficients of my model.
 
@@ -197,7 +197,7 @@ If the confidence interval crosses 1 (contains the value of no effect), this imp
 
 As stated before, my hypothesis regarding the variable `age` was wrong, and as soon as it became apparent that a person being male was significant, I added the variable `sexM` to my model. The four variables in the fitted model all have a statistically significant relationship with high alcohol use in the following descending order: `sexM`, `failures`, `absences`, and `famrel`.
 
-### Part 6
+## Part 6 - Exploring the Predictive Power of My Model
 
 According to my logistic regression model, `sexM`, `failures`, `famrel` and `absences` all had a statistical relationship with high/low alcohol use. Therefore, I do not need to make any adjustments to my model at this stage - as I did so in the step above.
 
@@ -233,7 +233,7 @@ loss_func(class = alc$high_use, prob = alc$probability)
 The training error for this model is approximately 0.254, while the test error is calculated in the following section. 
 
 
-### Part 7 - Bonus
+## Part 7 - Bonus: 10-fold Cross-validation
 
 As a bonus I will perform a 10-old cross-validation on my model. This tells us the testing errors, as opposed to the training errors above.
 
@@ -249,7 +249,7 @@ cv$delta[1]
 
 My model has a very slightly better test set performance than the model that was introduced in DataCamp: 0.2617801 versus 0.2643979. The testing error of my model is higher than my training error. A lower training error is expected when a method easily overfits to the training data. 
 
-### Part 8 - Super-Bonus
+## Part 8 - Super-Bonus: Comparing the Performance of Different Logistic Regression Models
 
 As a super-bonus I will perform cross-validation to compare the performance of different logistic regression models. I will start with the following 20 predictors: `sex`, `address`, `famsize`, `Pstatus`, `Medu`, `Fedu`, `Mjob`, `Fjob`,  `guardian`, `studytime`, `failures`, `schoolsup`, `famsup`, `activities`, `higher`, `romantic`, `famrel`, `goout`, `health`, and `absences`.
 
