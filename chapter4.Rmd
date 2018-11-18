@@ -1,4 +1,32 @@
-# 4. Clustering and classification
+# 4. Clustering and Classification
+
+The topics of this week - clutering and classification - are visual tools for the exploration of statistical data. Clustering means that some data points are closer to each other than some other points: they are clustered. Once we have clustered successfully, we can try to classify new observations to these clusters, thus validating the results of clustering.
 
 *Below are all the codes, my interpretations and explanations for this week's data analysis exercises.*
 
+## Part 1 - General Housekeeping
+
+As in last week, I created a new RMarkdown file and save it as an empty file named 'chapter4.Rmd'. Then I included this file as a child file in my 'index.Rmd' file, and as a result you are now reading this.
+
+## Part 2 - Loading the Boston data
+
+To load and explore the Boston data, I first needed to access the MASS package, and then load the "Boston" data. Below is the structure and summary of the data, and also a matrix of the variables.
+
+```{r}
+library(MASS)
+
+data("Boston")
+
+str(Boston)
+summary(Boston)
+
+pairs(Boston)
+```
+
+The Boston data set is a data frame with 506 observations of 14 variables. The data examines housing values in the suburbs of Boston. The variables are all numeric, with two variables being integer types.
+
+Here is the source of the data:  
+
+Harrison, D. and Rubinfeld, D.L. (1978) Hedonic prices and the demand for clean air. < em >J. Environ. Economics and Management < b >5, 81-102.
+
+Belsley D.A., Kuh, E. and Welsch, R.E. (1980) < em >Regression Diagnostics. Identifying Influential Data and Sources of Collinearity. New York: Wiley.

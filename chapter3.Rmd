@@ -1,5 +1,7 @@
 # 3. Logistic regression
 
+Moving on from linear regression, this week we will look at logictic regression. It is a method well suited for predicting and classifying data through probabilities. This week we will look at the concept of odds ratio (OR). We will also take a look at cross-validation, and learn about splitting the data into a training set and a test set.
+
 *Below are all the codes, my interpretations and explanations for this week's data analysis exercises.*
 
 The data for this exercise was downloaded from the UC Irvine Machine Learning Repository. 
