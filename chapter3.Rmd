@@ -71,6 +71,14 @@ summary(alc_dataset)
 
 Above is the initial numeric summary for all the variables that I chose. This does not tell us anything when it comes to the relationships between the variables, but it is a nice neat summary of the distribution of each variable.
 
+Let's look at a simple plot that illustrates `high_use`.
+
+```{r}
+ggplot(alc, aes(x = high_use, fill = sex)) + 
+  geom_bar(position = "fill")
+```
+
+Unsurprisingly, most high users of alcohol in this dataset were male.
 
 Before we get into the logistic regression in part 5 below, let's look at some numerical (summaries by group using the pipe operator) and graphical (box plot) representations of the data. Here, I will compare the variable `high_use` with variables `age`, `failures`, `famrel`, and `absences`.
 
