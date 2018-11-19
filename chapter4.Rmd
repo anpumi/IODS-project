@@ -8,6 +8,13 @@ The topics of this week - clutering and classification - are visual tools for th
 
 As in last week, I created a new RMarkdown file and save it as an empty file named 'chapter4.Rmd'. Then I included this file as a child file in my 'index.Rmd' file, and as a result you are now reading this.
 
+I also accessed some packages that I might need later.
+
+```{r}
+library(ggplot2); library(GGally); library(corrplot); library(tidyr); library(dplyr)
+```
+
+
 ## Part 2 - Loading the Boston data
 
 To load and explore the Boston data, I first needed to access the MASS package, and then load the "Boston" data. Below is the structure and summary of the data, and also a matrix of the variables.
@@ -18,15 +25,155 @@ library(MASS)
 data("Boston")
 
 str(Boston)
-summary(Boston)
 
-pairs(Boston)
 ```
 
 The Boston data set is a data frame with 506 observations of 14 variables. The data examines housing values in the suburbs of Boston. The variables are all numeric, with two variables being integer types.
+
+A link to details about the Boston dataset can be seen [here](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html).
 
 Here is the source of the data:  
 
 Harrison, D. and Rubinfeld, D.L. (1978) Hedonic prices and the demand for clean air. < em >J. Environ. Economics and Management < b >5, 81-102.
 
 Belsley D.A., Kuh, E. and Welsch, R.E. (1980) < em >Regression Diagnostics. Identifying Influential Data and Sources of Collinearity. New York: Wiley.
+
+## Part 3 - Exploring the Boston data
+
+Below is a graphical overview of the data and the summaries of the variables in the data.
+As there are more than a handful of variables, the `ggpairs`plot shows a somewhat unreadable plot. Therefore, I have split the data in to two smaller datasets, and I am drawing the ggpairs plots using those datasets.
+
+```{r}
+crim <- Boston$crim
+zn <- Boston$zn
+indus <- Boston$indus
+chas <- Boston$chas
+nox <- Boston$nox
+rm <- Boston$rm
+age <- Boston$age
+medv <- Boston$medv
+Boston_1 <- data.frame(crim, zn, indus, chas, nox, rm, age, medv)
+
+ggpairs(Boston_1, lower = list(combo  =wrap("facethist", bins=20)))
+
+
+dis <- Boston$dis
+rad <- Boston$rad
+tax <- Boston$tax
+ptratio <- Boston$ptratio
+black <- Boston$black
+lstat <- Boston$lstat
+Boston_2 <- data.frame(dis, rad, tax, ptratio, black, lstat, medv)
+
+ggpairs(Boston_2, lower = list(combo  =wrap("facethist", bins=20)))
+```
+
+
+```{r}
+summary(Boston)
+```
+
+The variable of interest here, as the data looks at housing values, is `medv`. It shows the median value of owner-occupied homes in $1000s, and the graphical overview above shows the correlations with the other 13 variables in the data set.
+
+The values for `medv`vary from 5 to 50, witha mean value of 22.53. `medv` correlates quite well with all the variables (apart from the Charles River dummy variable), but most strongly with the average number of rooms per dwelling `rm`(0.695) and lower status of the population `lstat`(obviously with a negative correlation of -0.738).
+
+After completing the above, I carried on with the DataCamp exercise, and came accross another way of plotting the correlations, this time from the `corrplot`package. Also, the funstion `cor()` can be used to craete a correlation matrix of the data. Let's do those now!
+
+```{r}
+cor_matrix<-cor(Boston) %>% round(digits = 2)
+cor_matrix
+corrplot(cor_matrix, method="square", type="lower", cl.pos="b", tl.pos="d", tl.cex = 0.6)
+```
+
+The `corrplot`is a really neat visualization method. Positive correlations are displayed in blue and negative correlations in red color. Color intensity and the size of the square are proportional to the correlation coefficients. As we can see from above, this gives us a quick visual way of confirming what we knew from before `lstat`has a strong negative correlation with `medv`and `rm` has a strong positive correlation with `medv`. At a glance, we can see that there are a handful of other strong positive and negative correlations in the matrix too.
+
+## Part 4 - Creating Training and Test Sets
+
+Now we need to scale the data. This is done by subtracting the column means from the corresponding columns and dividing the difference with standard deviation.
+$$scaled(x)=\frac{x-mean(x)}{sd(x)}$$
+The dataset is standardized, and below I have printed out a summary of the scaled data.
+```{r}
+
+boston_scaled <- scale(Boston)
+summary(boston_scaled)
+boston_scaled <- as.data.frame(boston_scaled)
+```
+
+
+How did the variables change? They have changed per the *scaled(x)* equation above. It is worth noting that in this new summary, all the mean values are 0.
+
+We can create a categorical variable from a continuous one, and we will do that with the crime rate in the Boston dataset (from the scaled crime rate). We will cut the `crim`variable by quantiles to get the high, low and middle rates of crime into their own categories. The quantiles are used as the break points in the new categorical variable. The old crime rate variable is dropped from the dataset.
+
+```{r}
+summary(boston_scaled$crim)
+
+# create a quantile vector of crim and print it
+bins <- quantile(boston_scaled$crim)
+bins
+
+# create a categorical variable 'crime'
+crime <- cut(boston_scaled$crim, breaks = bins, include.lowest = TRUE, labels = c("low", "med_low", "med_high", "high"))
+
+# look at the table of the new factor crime
+table(crime)
+
+# remove original crim from the dataset
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+
+# add the new categorical value to scaled data
+boston_scaled <- data.frame(boston_scaled, crime)
+```
+
+Next, we will divide the dataset to training and test sets, so that 80% of the data belongs to the training set.
+
+```{r}
+# number of rows in the Boston dataset 
+n <- nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+# create train set
+train <- boston_scaled[ind,]
+
+# create test set 
+test <- boston_scaled[-ind,]
+
+# save the correct classes from test data
+correct_classes <- test$crime
+
+# remove the crime variable from test data
+test <- dplyr::select(test, -crime)
+```
+
+## Part 4 - Linear Discriminant Analysis
+
+Next we will look at linear discriminant analysis. It is a classification and dimension reduction method that is closely related to logictic regression (from last week) and  principal component analysis (next week).
+
+First, we will fit the linear discriminant analysis on the training set created in the previous step. We will use the categorical crime rate as the target variable and all the other variables are predictor variables. We will draw the LDA (bi)plot.
+
+```{r}
+# linear discriminant analysis
+lda.fit <- lda(crime ~ ., data = train)
+
+# print the lda.fit object
+lda.fit
+
+# the function for lda biplot arrows
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+# target classes as numeric
+classes <- as.numeric(train$crime)
+
+# plot the lda results
+plot(lda.fit, dimen = 2, col = classes, pch = classes)
+lda.arrows(lda.fit, myscale = 1.5)
+```
+
