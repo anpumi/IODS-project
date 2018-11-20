@@ -1,6 +1,5 @@
 ggpairs(Boston, lower = list(combo  =wrap("facethist", bins=20)))
 install.packages("corrplot")
-library(corrplot)
-install.packages("tidyverse")
 install.packages("tidyr")
 install.packages("dplyr")
+test
