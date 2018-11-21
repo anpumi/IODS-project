@@ -205,7 +205,7 @@ As the cross tabulation shows, the LDA model performs exceptionally well only fo
 
 ## Part 7 - K-means Algorithm
 
-Now we will look at clusterin, and we will start with distance measures. First, we need to reload the Boston dataset and standardize the dataset.
+Now we will look at clustering, and we will start with distance measures. First, we need to reload the Boston dataset and standardize the dataset.
 
 ```{r}
 library(MASS)
@@ -293,7 +293,7 @@ The first cluster is composed of 177 observations, and the second of 329. Only 3
 
 ## Bonus
 
-Perform k-means on the original Boston data with some reasonable number of clusters (> 2). Remember to standardize the dataset.
+Perform k-means on the original Boston data with some reasonable number of clusters (> 2) (I did 3). Remember to standardize the dataset.
 
 ```{r}
 library(MASS)
@@ -313,8 +313,8 @@ class(boston_K2_scaled)
 # change the object to data frame
 boston_K2_scaled <- as.data.frame(boston_K2_scaled)
 
-# kmeans with 5 clusters
-km <-kmeans(boston_K2_scaled, centers = 5, nstart = 20)
+# kmeans with 3 clusters
+km <-kmeans(boston_K2_scaled, centers = 3, nstart = 20)
 km
 ```
 
@@ -323,12 +323,32 @@ Then perform LDA using the clusters as target classes. Include all the variables
 So clusters are my TARGET classes, therefore the clusters need to be the variables before ~. So I need to somehow combine km$centers(??) and the Boston data... I think!
 
 ```{r}
-# access the centers component in the kmeans data
-km_centers <- as.data.frame(km$centers)
+# access the cluster component in the kmeans data and change it to dataframe
+cluster <- km$cluster
+cluster <- as.data.frame(cluster)
 
+# Add cluster as a column to boston_K2_scaled, ie. merge the two datasets
+bonus_data <- merge(boston_K2_scaled, cluster)
 
+# Create training and test sets
+
+# number of rows in the new dataset 
+n <- nrow(bonus_data)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+# create train set
+bonus_train <- bonus_data[ind,]
+
+# create test set 
+bonus_test <- bonus_data[-ind,]
+
+# Perform LDA
+bonus.lda.fit <- lda(cluster ~ ., data = bonus_train)
+bonus.lda.fit
 ```
-Visualize the results with a biplot (include arrows representing the relationships of the original variables to the LDA solution). Interpret the results. Which variables are the most influencial linear separators for the clusters? Still a WIP...
+Visualize the results with a biplot (include arrows representing the relationships of the original variables to the LDA solution). Interpret the results. Which variables are the most influencial linear separators for the clusters?
 
 ```{r}
 # the function for lda biplot arrows
@@ -342,11 +362,11 @@ lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex 
 }
 
 # target classes as numeric
-classes <- as.numeric(train$crime)
+classes <- as.numeric(bonus_train$cluster)
 
 # plot the lda results
-plot(lda.fit, dimen = 2, col = classes, pch = classes)
-lda.arrows(lda.fit, myscale = 1.5)
+plot(bonus.lda.fit, dimen = 2, col = classes, pch = classes)
+lda.arrows(bonus.lda.fit, myscale = 1.5)
 
 ```
 
@@ -368,5 +388,20 @@ matrix_product <- as.data.frame(matrix_product)
 
 Next, install and access the plotly package. Create a 3D plot (Cool!) of the columns of the matrix product by typing the code below.
 
+```{r}
+library(plotly)
+```
+
+```{r}
 plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers')
+```
+
+
+No kidding, this is cool!!
+
 Adjust the code: add argument color as a argument in the plot_ly() function. Set the color to be the crime classes of the train set. Draw another 3D plot where the color is defined by the clusters of the k-means. How do the plots differ? Are there any similarities? (0-3 points to compensate any loss of points from the above exercises)
+
+```{r}
+plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers')
+```
+
