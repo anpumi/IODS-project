@@ -1,0 +1,59 @@
+
+# 5. Dimensionality reduction techniques
+
+##  Part 1. Overview of the Data
+
+For clarity, here are the variables and their short explanations:  
+- `Life.Exp` = Life expectancy at birth
+- `Edu.Exp` = Expected years of schooling 
+- `GNI` = Gross National Income
+- `Mat.Mor` = Maternal mortality ratio
+- `Ado.Birth` = Adolescent birth rate 
+- `Parli.F` = Percetange of female representatives in parliament 
+- `Edu2.FM` = Proportion of females with at least secondary education / Proportion of males with at least secondary education
+- `Labo.FM` = Proportion of females in the labour force / Proportion of males in the labour force
+
+```{r}
+# dplyr, corrplot and GGally are available
+library(dplyr)
+library(corrplot)
+library(GGally)
+human <- read.table("create_human.csv", sep = "," , header=TRUE)
+human <- select(human, -1)
+summary(human)
+```
+
+
+Studying the output of the `summary`function we can see the distributions of the variables. For example, the average life expectancy is 71.65 years with a minimum of 49 and maximum of 83.5 years.
+
+Next, we will study a graphical overview of the data. I will do this by drawing a `ggpairs` plot. We will also draw a correlation plot.
+
+```{r}
+
+# visualize the 'human' variables
+ggpairs(human)
+
+# compute the correlation matrix and visualize it with corrplot
+cor(human) %>% corrplot
+
+```
+
+Let's look at the information for the distribution of each variable.  All the variables are unimodally distributed (they have one peak).
+- `Edu2.FM` left-skewed distribution
+- `Labo.FM` left-skewed distribution
+- `Life.Exp` left-skewed distribution
+- `Edu.Exp` slightly left-skewed distribution, almost symmetric
+- `Mat.Mor` right-skewed distribution
+- `Ado.Birth` right-skewed distribution
+- `Parli.F` right-skewed distribution
+
+The plot above shows that the highest correlation (in absolute values) is between the variables `Mat.Mor` and `Life.Exp`, with a negative correlation of 0.857. Other very high correlation pairs include:
+- `Edu.Exp` and `Life.Exp`
+- `Mat.mor` and `Edu.Exp`
+- `Ado.Birth` and `Life.Exp`
+- `Ado.Birth` and `Edu.Exp`
+- `Ado.Birth` and `Mat.Mor`
+
+Particularly low correlations occur with the "percetange of female representatives in parliament" variable. 
+
+As we can see again, the variables have some rather high correlations between them. I feel that now, however, is a good time to remind about the fact that correlation does *not* equal causality, and that in social sciences particularly, the relationships betwen various variables are much more complex than often meets the eye.

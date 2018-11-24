@@ -55,7 +55,7 @@ The variable of interest here, as the data looks at housing values, is `medv`. I
 
 The values for `medv`vary from 5 to 50, witha mean value of 22.53. `medv` correlates quite well with all the variables (apart from the Charles River dummy variable), but most strongly with the average number of rooms per dwelling `rm`(0.695) and lower status of the population `lstat`(obviously with a negative correlation of -0.738).
 
-Lt's look at a way of plotting the correlations, this time from the `corrplot`package. Also, the funstion `cor()` can be used to craete a correlation matrix of the data.
+Let's look at a way of plotting the correlations, this time from the `corrplot`package. Also, the funstion `cor()` can be used to craete a correlation matrix of the data.
 
 ```{r}
 # calculate the correlation matrix and round it
@@ -402,6 +402,6 @@ No kidding, this is cool!!
 Adjust the code: add argument color as a argument in the plot_ly() function. Set the color to be the crime classes of the train set. Draw another 3D plot where the color is defined by the clusters of the k-means. How do the plots differ? Are there any similarities? (0-3 points to compensate any loss of points from the above exercises)
 
 ```{r}
-plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers')
+plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers', col=bins)
 ```
 
