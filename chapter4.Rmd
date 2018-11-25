@@ -318,9 +318,7 @@ km <-kmeans(boston_K2_scaled, centers = 3, nstart = 20)
 km
 ```
 
-Then perform LDA using the clusters as target classes. Include all the variables in the Boston data in the LDA model.
-
-So clusters are my TARGET classes, therefore the clusters need to be the variables before ~. So I need to somehow combine km$centers(??) and the Boston data... I think!
+Then we will perform LDA using the clusters as target classes. I will include all the variables in the Boston data in the LDA model.
 
 ```{r}
 # access the cluster component in the kmeans data and change it to dataframe
@@ -348,7 +346,8 @@ bonus_test <- bonus_data[-ind,]
 bonus.lda.fit <- lda(cluster ~ ., data = bonus_train)
 bonus.lda.fit
 ```
-Visualize the results with a biplot (include arrows representing the relationships of the original variables to the LDA solution). Interpret the results. Which variables are the most influencial linear separators for the clusters?
+
+Next, we will visualize the results with a biplot (including arrows representing the relationships of the original variables to the LDA solution).
 
 ```{r}
 # the function for lda biplot arrows
@@ -370,6 +369,7 @@ lda.arrows(bonus.lda.fit, myscale = 1.5)
 
 ```
 
+It appears that the most influencial linear separators for the clusters are LDA1 and LDA2. The variables `rad` and `tax` represent the most discrimination (their arrows are the longest). The angles between arrows represent the correlations between the variables (small angle = high positive correlation).
 
 ## Super-Bonus
 
@@ -393,15 +393,11 @@ library(plotly)
 ```
 
 ```{r}
-plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers')
+plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers', color=train$crime)
 ```
 
 
 No kidding, this is cool!!
 
-Adjust the code: add argument color as a argument in the plot_ly() function. Set the color to be the crime classes of the train set. Draw another 3D plot where the color is defined by the clusters of the k-means. How do the plots differ? Are there any similarities? (0-3 points to compensate any loss of points from the above exercises)
-
-```{r}
-plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers', col=bins)
-```
+Sadly, this is where I had to stop this week, and I won't be doing a comparison here. Thanks for reading to the end, and have a good week!
 
