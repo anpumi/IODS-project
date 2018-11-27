@@ -3,15 +3,15 @@
 
 ##  Part 1. Overview of the Data
 
-For clarity, here are the variables and their short explanations:  
-- `Life.Exp` = Life expectancy at birth
-- `Edu.Exp` = Expected years of schooling 
-- `GNI` = Gross National Income
-- `Mat.Mor` = Maternal mortality ratio
-- `Ado.Birth` = Adolescent birth rate 
-- `Parli.F` = Percetange of female representatives in parliament 
-- `Edu2.FM` = Proportion of females with at least secondary education / Proportion of males with at least secondary education
-- `Labo.FM` = Proportion of females in the labour force / Proportion of males in the labour force
+For clarity, here are the variables and their short explanations:   
+* `Life.Exp` = Life expectancy at birth  
+* `Edu.Exp` = Expected years of schooling    
+* `GNI` = Gross National Income  
+* `Mat.Mor` = Maternal mortality ratio  
+* `Ado.Birth` = Adolescent birth rate  
+* `Parli.F` = Percentage of female representatives in parliament  
+* `Edu2.FM` = Proportion of females with at least secondary education / Proportion of males with at least secondary education  
+* `Labo.FM` = Proportion of females in the labour force / Proportion of males in the labour force  
 
 ```{r}
 # dplyr, corrplot and GGally are available
@@ -24,9 +24,9 @@ summary(human)
 ```
 
 
-Studying the output of the `summary`function we can see the distributions of the variables. For example, the average life expectancy is 71.65 years with a minimum of 49 and maximum of 83.5 years.
+Studying the output of the `summary`function we can see the distributions of the variables. For example, the average life expectancy is 71.65 years with a minimum of 49 and maximum of 83.5 years.  
 
-Next, we will study a graphical overview of the data. I will do this by drawing a `ggpairs` plot. We will also draw a correlation plot.
+Next, we will study a graphical overview of the data. I will do this by drawing a `ggpairs` plot. We will also draw a correlation plot.  
 
 ```{r}
 
@@ -41,46 +41,48 @@ corrplot(cor_human, method="square", type="lower", cl.pos="b", tl.pos="d", tl.ce
 
 ```
 
-Let's look at the information for the distribution of each variable.  All the variables are unimodally distributed (they have one peak).
-- `Edu2.FM` left-skewed distribution
-- `Labo.FM` left-skewed distribution
-- `Life.Exp` left-skewed distribution
-- `Edu.Exp` slightly left-skewed distribution, almost symmetric
-- `Mat.Mor` right-skewed distribution
-- `Ado.Birth` right-skewed distribution
-- `Parli.F` right-skewed distribution
+Let's look at the information for the distribution of each variable.  All the variables are unimodally distributed (they have one peak).  
+* `Edu2.FM` left-skewed distribution  
+* `Labo.FM` left-skewed distribution  
+* `Life.Exp` left-skewed distribution  
+* `Edu.Exp` slightly left-skewed distribution, almost symmetric  
+* `Mat.Mor` right-skewed distribution  
+* `Ado.Birth` right-skewed distribution  
+* `Parli.F` right-skewed distribution  
 
-The plot above shows that the highest correlation (in absolute values) is between the variables `Mat.Mor` and `Life.Exp`, with a negative correlation of 0.857. Other very high correlation pairs include:
-- `Edu.Exp` and `Life.Exp` (positive)
-- `Mat.mor` and `Edu.Exp` (negative)
-- `Ado.Birth` and `Life.Exp` (negative)
-- `Ado.Birth` and `Edu.Exp` (negative)
-- `Ado.Birth` and `Mat.Mor` (positive)
+The plot above shows that the highest correlation (in absolute values) is between the variables `Mat.Mor` and `Life.Exp`, with a negative correlation of 0.857. Other very high correlation pairs include:  
+* `Edu.Exp` and `Life.Exp` (positive)  
+* `Mat.mor` and `Edu.Exp` (negative)  
+* `Ado.Birth` and `Life.Exp` (negative)  
+* `Ado.Birth` and `Edu.Exp` (negative)  
+* `Ado.Birth` and `Mat.Mor` (positive)  
 
-The `corrplot`above shows a visual representation of these correlations very clearly too. As we learned last week, positive correlations are displayed in blue and negative correlations in red color. Color intensity and the size of the square are proportional to the correlation coefficients. 
+The `corrplot`above shows a visual representation of these correlations very clearly too. As we learned last week, positive correlations are displayed in blue and negative correlations in red color. Color intensity and the size of the square are proportional to the correlation coefficients.  
 
-Particularly low correlations occur with the "percetange of female representatives in parliament" variable.
+Particularly low correlations occur with the "percentage of female representatives in parliament" variable.  
 
-As we can see again, the variables have some rather high correlations between them. I feel that now, however, is a good time to remind about the fact that correlation does *not* equal causality, and that in social sciences particularly, the relationships betwen various variables are much more complex than often meets the eye.
+As we can see again, the variables have some rather high correlations between them. I feel that now, however, is a good time to remind about the fact that correlation does *not* equal causality, and that in social sciences particularly, the relationships between various variables are much more complex than often meets the eye.  
+
+***
 
 ## Part 2. Principal Component Analysis (PCA)
 
-In PCA, we decompose a data matrix into smaller matrices, allowing us to extract the underlying *principal* components. Ideally, the variance along these principal components is a reasonable characterization of the complete data set.
+In PCA, we decompose a data matrix into smaller matrices, allowing us to extract the underlying *principal* components. Ideally, the variance along these principal components is a reasonable characterization of the complete data set.  
 
-There are two different methods of PCA (from linear algebra), the Eigenvalue Decomposition and the Singular Value Decomposition (SVD). The `prcomp()`function in R uses the SVD, which is the more accurate, and therefore preferred method of PCA.
+There are two different methods of PCA (from linear algebra), the Eigenvalue Decomposition and the Singular Value Decomposition (SVD). The `prcomp()`function in R uses the SVD, which is the more accurate, and therefore preferred method of PCA.  
 
-We will now perform SVD PCA on the `human`dataset. We will first do this for the non-standardized data.
+We will now perform SVD PCA on the `human`dataset. We will first do this for the non-standardized data.  
 
 ```{r}
 pca_human <- prcomp(human)
 pca_human
 ```
 
-This dataset has eight principal components. The analysis first shows the standard deviations of the components, and then the variability.
-The first principal component `PC1` captures the maximum amount of variance form the features in the original data.
-`PC2` is statistically independent from the first, and captures the maximum variability that is left.
-The same applies for rest of the principal components: they are all non-correlated and each is less important than the last one in terms of variance captured.
-Now, let's look at a biplot of the above data.
+This dataset has eight principal components. The analysis first shows the standard deviations of the components, and then the variability.  
+The first principal component `PC1` captures the maximum amount of variance form the features in the original data.  
+`PC2` is statistically independent from the first, and captures the maximum variability that is left.  
+The same applies for rest of the principal components: they are all non-correlated and each is less important than the last one in terms of variance captured.  
+Now, let's look at a biplot of the above data.  
 
 ```{r}
 # create and print out a summary of pca_human
@@ -109,6 +111,8 @@ The angle between a variable and the PC axis show the correlation between the tw
 
 The length of the arrows proportionally show us the standard deviation of the variables.
 
+***
+
 ## Part 3. Principal Component Analysis (PCA) with Standardized Variables
 
 It is worth noting that PCA is sensitive to scaling and assumes that features (variables) with larger variances are more important than those with smaller variances. Therefore, scaling the variables used in PCA is a good idea. Let's do that now.
@@ -132,14 +136,14 @@ pca_pr
 pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 # draw a biplot
-biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
+biplot(pca_human, cex = c(0.6, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
 
 ```
 
 
 The first biplot is very difficult to read and therefore interpret, and unfortunately at present I lack the skills to make it more readable. However, the results of both analysis are clearly different. The standardized analysis is the one we should concentrate on, and luckily that is the one where the biplot is readable. The reason for concentrating on the standardized analysis (and the reason why the analysis are different) was mentioned above: PCA is sensitive to scaling and assumes that features (variables) with larger variances are more important than those with smaller variances.
 
-Including the percentages for the first two principal components in the biplot tells us that the first two principal components `PC1` and `PC2` account for 98.3% of variance in the original data in the non-standardized analysis and for 64.5% in the standardized version. Therefore we would include more PC's in our standardized analysis, maybe 4 principal components, to capture more of the variance. This again demonstrates why standardizing the variables is a good idea: in the non-standardized version the model places too much importance on the larger variances, making the entire model badly skewed.
+Including the percentages for the first two principal components in the biplot tells us that the first two principal components `PC1` and `PC2` account for 98.3% of variance in the original data in the non-standardized analysis and for 64.5% in the standardized version. This again demonstrates why standardizing the variables is a good idea: in the non-standardized version the model places too much importance on the larger variances, making the entire model badly skewed. We would ideally include more PC's in our standardized analysis to capture more of the variance. The PC's selected for the analysis should capture around 80% of the variance to be reliable, therefore 3 PC's (77%) or 4 PC's (86%) would be good. 
 
 Next, we will look at the correlations. If we look at, for example, the angle of the arrows that represent `Mat.Mor` and `Ado.Birth`, we can see that the angle is quite small between the two arrows. This corresponds to a high positive correlation (0.7586615). The angles of the arrows are the same in both biplots, since the correlations are identical for standardized and non-standardized data.
 
@@ -147,15 +151,123 @@ The lengths of the arrows - representing the standard deviations of the variable
 
 Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions (brief descriptions) in your plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to.
 
+***
+
 ## Part 4. Interpretations of `PC1` and `PC2` Dimensions
 
-Give your personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data.
+Looking at the biplot drawn after PCA on the standardized human data, we can see that there is one major cluster (call this `C1`), and a smaller cluster almost directly below it (`C2`). There is also a more scattered cluster diagonally to the top-right from the main cluster (`C3`). The rest of the countries (shown as numbers) are scattered around more or less randomly. 
 
-The angle between the arrows can be interpret as the correlation between the variables.
-The angle between a variable and a PC axis can be interpret as the correlation between the two.
-The length of the arrows are proportional to the standard deviations of the variables
+Since the clusters of countries `C1` and `C3` are different based on `PC1`, such differences are likely to be due to the variables that have heavy influences on `PC1`. Those variables, as can be seen in the PCA table, are `Life.Exp`, `Edu.Exp`, `Mat.Mor` and `Ado.Birth`.
 
-## Part 5.
+As the `C1` and `C2` clusters are different based on `PC2`, then the variables that heavily influence `PC2` are likely to be responsible. Those variables, per the PCA table, are `Labo.FM` and `Parli.F`.
+
+The arrows in relation to one another can be interpreted as follows:  
+
+> When two arrows form a small angle, the variables are positively correlated.  
+Example: `Mat.Mor` and `Ado.Birth` (0.76 correlation).  
+> When they meet each other at around 90°, they are not likely to be correlated.  
+Example: `Edu2.FM` and `Labo.FM` (0.01).  
+> When they form a large angle (close to 180°), they are negatively correlated.  
+Example: `Mat.Mor` and `Life.Exp` (-0.86).  
+
+So, let's hazard a guess at what some of this means. 
+
+Looking at the countries in cluster 3, we find countries in Sub-Saharan Africa: Senegal, Malawi, Lesotho, Ethiopia and Kenya. Some of the countries in cluster 1 include Cyprus, Lithuania, and Thailand. Seeing these countries now helps the whole scenario make more sense: very poor countries are in one cluster, separated from better-to-do countries by variances in aspects such as maternal mortality and life expectancy. The point is further illuminated as we look for the richer countries in the world, such as Norway and Denmark, and find them even further away to the left on the `PC1` axis from the Sub-Saharan countries. Hence we can probably conclude that the differences in these variables separate rich, middle and poor countries in the world.
+
+But what about the `PC2` axis? There, in cluster 2, are countries such as Cyprus and Sri Lanka, who are separated by the variances in "percentage of female representatives in parliament" and "proportion of females to males in the workforce" variables, from the fairly-well-to-do countries mentioned above.
+
+The observations I've made above got me thinking about changing the plot further. The countries in the HDI index are listed according to the Human Development Index score they received. How about if we color-code the countries according to the scores they received. What would the plot reveal then?
+
+In the [HDI technical notes](http://hdr.undp.org/sites/default/files/hdr2018_technical_notes.pdf), the following groupings can be found:
+
+> Very high human development:   0.800 and above  
+> High human development:        0.700-0.799  
+> Medium human development:      0.550-0.699  
+> Low human development:         Below 0.550  
+
+So, let's use those groupings to color our countries.
+
+First things first (and bear with me here, this might take up some space), I need to create a new dataset `humans`that will include the HDI score. I did this in a separate R script file to save space, hence the hashtags below...
+
+```{r}
+# humans <- read.table("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human1.txt", sep  =",", header = T)
+library(stringr)
+library(dplyr)
+# str_replace(humans$GNI, pattern=",", replace ="") %>% as.numeric$GNI
+# humans$GNI <- as.numeric(humans$GNI)
+# keep <- c("HDI", "Country", "Edu2.FM", "Labo.FM", "Life.Exp", "Edu.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
+# humans <- select(humans, one_of(keep))
+# complete.cases(humans)
+# data.frame(humans[-1], comp = complete.cases(humans))
+# humans <- filter(humans, complete.cases(humans))
+# tail(humans, 10)
+# last <- nrow(humans) - 7
+# humans <- humans[1:last, ]
+# rownames(humans) <- humans$Country
+# humans <- select(humans, -Country)
+# str(humans)
+# write.csv(humans, file = "create_humans.csv", row.names=TRUE)
+```
+
+Then, we need to add a column to our `humans` dataset that specifies the HDI quality as per the technical notes.
+
+```{r}
+humans <- read.table("create_humans.csv", sep = "," , header=TRUE)
+humans$devt[humans$HDI>=0.800]<-"Very High"
+humans$devt[humans$HDI>=0.700 & humans$HDI<0.799]<-"High"
+humans$devt[humans$HDI>=0.550 & humans$HDI<0.699]<-"Medium"
+humans$devt[humans$HDI<0.550]<-"Low"
+
+```
+
+Now we are ready to standardize the dataset, perform PCA (excluding `HDI` as it wasn't part of the previous analysis set, and `devt` as it is only required for classification purposes), and draw the biplot.
+
+```{r}
+pca_humans <- prcomp(~ . -X -HDI -devt, data = humans, scale. = TRUE)
+
+# create and print out a summary of pca_human
+s <- summary(pca_humans)
+s
+```
+
+Then, as I was trying to get the plot coloured as I wanted it, I came across this excellent [tutorial](https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/)!
+
+```{r}
+# First I needed to access some stuff
+# install.packages("devtools")
+# install.packages("R6")
+library(devtools)
+# devtools::install_github("vqv/ggbiplot")
+
+library(ggbiplot)
+```
+
+
+```{r}
+g <- ggbiplot(pca_humans, obs.scale = 1, var.scale = 1, 
+              groups = humans$devt, ellipse = TRUE, 
+              circle = TRUE)
+g <- g + scale_color_discrete(name = '')
+g <- g + theme(legend.direction = 'vertical', 
+               legend.position = 'right')
+print(g)
+```
+
+Now, this plot I find much easier to interpret. The colors shows us the clusters much more easily, and I feel they are needed as the previous method did not make seeing the clusters very easy at all. This is largely due to the fact that the clusters are not tightly clustered.
+
+Most differences are the result the variables that have heavy influences on `PC1` axis. As observed previously, those variables are `Life.Exp`, `Edu.Exp`, `Mat.Mor` and `Ado.Birth`. It makes perfect sense that countries with a higher score in the Human Development Index are furthest away from the lowest scoring countries, and they are ordered (as expected) `Very High`-> `High` -> `Medium`-> `Low`on the first principal component axis. It is worth noting that the low HDI index countries are much more spread out on the plot, indicating more variances between their variables than in those of the higher HDI score countries. In fact, the higher in the index we go, the tighter the clusters appear.
+
+A couple of noteworthy points about the above plot:  
+- The data ellipses capture 68% (default) for each of the 4 HDI indicators in the data.
+- The large circle shows the theoretical maximum reach of the arrows. 
+
+***
+
+## Part 5. It's MCA Tea Time!
+
+Let's have some tea, shall we!
+
+First, we will access some packages and the `tea`dataset. We will choose which columns to keep for our dataset, look at the summaries and structure of the data, and then do some simple visualizations.
 
 ```{r}
 # the tea dataset and packages FactoMineR, ggplot2, dplyr and tidyr are available
@@ -180,8 +292,7 @@ gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + g
 
 ```
 
-
-Load the tea dataset from the package Factominer. Explore the data briefly: look at the structure and the dimensions of the data and visualize it. 
+The data is the results of a survey of tea drinkers. The data frame consists of 300 observations and  6 variables. The bar plots nicely help visualize the spread of each variable.
 
 ```{r}
 # multiple correspondence analysis

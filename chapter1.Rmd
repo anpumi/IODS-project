@@ -1,13 +1,11 @@
 
 # 1. About the project
 
-## Introduction to Open Data Science
-
 This 7-week course, as described in Kimmo Vehkalahti's blog, is
 
-_open for everyone willing to learn how to use RStudio, R Markdown and GitHub (state-of-the-art tools of data science) to visualise and analyse open data with multivariate statistical methods following principles and practices of reproducible research_
+> "...open for everyone willing to learn how to use RStudio, R Markdown and GitHub (state-of-the-art tools of data science) to visualise and analyse open data with multivariate statistical methods following principles and practices of reproducible research..."
 
-The course sounds exciting enough for me to cha(lle)nge my plans and become a data scientist!
+It will be fantastic to learn some new $R$ tricks, and also some new (to me) statistical methods.
 
 [Annukka's GitHub repository](https://github.com/msnxt/IODS-project)
 
