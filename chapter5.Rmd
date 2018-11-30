@@ -387,4 +387,4 @@ plot(res.mca, invisible = c("var","quali.sup"), habillage = "frequency")
 
 This plot is rather handy in seeing certain characteristics of survey respondents in graphical form. As we can see, the colour green seems to dominate, indicating that most of the `tea`survey respondents like to drink a nice cuppa more than twice a day. I suspect that this survey was carried out in Britain, and if this was the case, I do not doubt the accuracy of this assessment one bit!
 
-That's all for this week. Thanks so much for reading this to the very end, and have a great week!
+>That's all for this week. Thanks so much for reading this to the very end, and have a great week!
