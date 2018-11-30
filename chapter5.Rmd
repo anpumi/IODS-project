@@ -265,9 +265,23 @@ A couple of noteworthy points about the above plot:
 
 ## Part 5. It's MCA Tea Time!
 
-Let's have some tea, shall we!
+> Let's have some tea, shall we!
 
-First, we will access some packages and the `tea`dataset. We will choose which columns to keep for our dataset, look at the summaries and structure of the data, and then do some simple visualizations.
+Multiple Correspondence Analysis (MCA) is an extension of Correspondence Analysis (CA). It allows us to analyze the pattern of relationships found within several categorical dependent variables.
+
+MCA can also be viewed as a generalization of PCA: variables analyzed are **categorical** instead of **quantitative**. A very helpful article on MCA in R can be found [here](http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/).
+
+So, let's put MCA to use to find groups of individuals with similar profiles in their answers to the survey questions and also to find the associations between variable categories.
+
+First, we will access some packages and the `tea`dataset. The original dataset consists of 300 observations and 36 variables. The data is the results of a survey of tea drinkers.  
+The `?tea` query gives us the following information:  
+
+> "The data used here concern a questionnaire on tea. We asked to 300 individuals how they drink tea (18 questions), what are their product's perception (12 questions) and some personal details (4 questions)."
+
+AND
+
+>  "A data frame with 300 rows and 36 columns. Rows represent the individuals, columns represent the different questions. The first 18 questions are active ones, the 19th is a supplementary quantitative variable (the age) and the last variables are supplementary categorical variables."
+We will choose which columns to keep for our dataset, look at the summaries and structure of the data, and then do some simple visualizations.
 
 ```{r}
 # the tea dataset and packages FactoMineR, ggplot2, dplyr and tidyr are available
@@ -292,7 +306,9 @@ gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + g
 
 ```
 
-The data is the results of a survey of tea drinkers. The data frame consists of 300 observations and  6 variables. The bar plots nicely help visualize the spread of each variable.
+The data frame now consists of 300 observations and  6 variables. The bar plots nicely help visualize the spread of each variable.
+
+Now we will perform the MCA and print its summary, as well as visualize it.
 
 ```{r}
 # multiple correspondence analysis
@@ -305,5 +321,70 @@ summary(mca)
 plot(mca, invisible=c("ind"), habillage = "quali")
 ```
 
+Let's look at the output of the MCA summary first.  
 
-Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it's up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. 
+The `Eigenvalues` section at the top show the variances and the percentages of variances retained by each dimension.  
+
+Then in the next section - `Individuals` - we have the individuals coordinates (e.g. `Dim.1`), the individuals percentage contribution on each dimension (`ctr`) and the the squared correlations (`cos2`) on the dimensions.  
+
+The `Categories` table specifies the coordinates of the variable categories (e.g. `Dim.1`), the contribution percentage (`ctr`), the squared correlations (`cos2`) and the `v.test` value. The v.test follows normal distribution: if the value is ± 1.96, the coordinate is significantly different from zero. We can see that this is the case for all of the listed categories except `alone` and `other`.  
+
+Finally, we have the `Categorical variables (eta2)`. It shows the squared correlation between each variable and the dimension. A value close to one indicates a strong connection between the variable and the dimension. Variables `how`and `where`, although not *very* close to one, are the closest at around 0.7, on the first dimension.
+
+We can use the `invisible` argument in the code to choose whether to plot individuals, variances, or both. We can do this by changing the argument to "none", "ind", or "var". (There is also the option of plotting the supplementary or background variables). By turning "ind" invisible, the above plots variances.
+
+The MCA factor map can be interpreted by looking at the distance between variable categories. This shows a measure of their similarity. In our plot, the variables `chain store`and `tea bag`have a high degree of similarity. This tells us that individuals who buy their tea from chain stores drink mainly teabag tea, and vice versa. `black`and `no sugar`are also very similar, indicating that people who do not use sugar in their tea also do not use milk.
+
+Let's plot individuals and then both.  
+
+Note: The `habillage`argument can be changed to specify the qualitative variable (by its index or name), and used for coloring individuals by groups.
+
+I experimented with all the variables as the `habillage` argument, and found that the clearest groupings were found by using `how`and `where` (note that these are the same variables that were closest to one in categorical variables). In fact, those two yielded remarkably similar results. For this analysis, I chose `how`. Let's see how `how`makes our plot look:
+
+```{r}
+plot(mca, invisible=c("var"), habillage = "how")
+```
+
+Let's also look at the plot that includes both the variables and the individuals.
+
+```{r}
+plot(mca, invisible=c("none"), habillage = "how")
+```
+
+What if we want to run MCA on the entire `tea`dataset? By accessing `?tea` we find the following code for MCA. The arguments used specify that variable number 19 is a supplementary quantitative variable and that arguments 20 through to 36 are supplementary variables. Therefore it follows that variables 1 through to 18 are active variables.
+
+The following code now excludes `graph = FALSE` and therefore the default graphs are displayed.
+
+```{r}
+res.mca=MCA(tea,quanti.sup=19,quali.sup=20:36)
+```
+
+Let's next look at how these plots can be interpreted. A very helpful video can be found [here](https://www.youtube.com/watch?v=reG8Y9ZgcaQ).
+
+`Graph 1: MCA factor map` - This plot shows the individuals. There isn't a clear cluster of individuals here, so there isn't much to say about this plot.
+
+Now bear with me please while I present the graphs out of order, Graph 2 will come last, and we'll soon see why.
+
+`Graph 3: Plot of the variables` - this graph shows which variables are connected to the two dimensions. In our example, the variable `where`is linked to both dimensions, as are `price`and `how` (just not as strongly). We can also see that at the bottom left of the graph there is a whole bunch of variables that are not at all strongly linked to the dimensions.
+
+`Graph 4: Supplementary variables on the MCA factor map` - graph and the circle within it are similar to the one in PCA. If the arrow is close to the circle, then the correlation between the variable and the two dimensions is strong. As we can see in our example, `age`clearly is not strongly correlated with the dimensions in question.
+
+`Graph 2: MCA factor map` - This graph of categories is more interesting than the second graph. However, the problem here is that there are many categories, making the graph difficult to read. We can use the `FactoMineR`function to make the information more legible. Let's do that below. I have included code comments below.
+
+```{r}
+plot(res.mca, invisible=c("ind", "quali.sup"), selectMod="contrib 10", cex=0.8) 
+
+# here we first code the plot, making ind and quali.sup invisible, just like we did in the example given in DataCamp. This time we also make the font smaller for improved readability. Next, we choose the 10 categories that are the best represented on the 2 dimension. Please note that the points that are no longer included are still drawn transparent. 
+```
+
+The above chart now shows us the ten categories that are the best represented on the 2 dimension. I find it quite interesting that a `price`category factor `p_upscale` is this strongly present on the second dimension, along with the factor `tea shop` from the `where` category and the factor `unoackaged` from the `how` category.
+
+Finally, let's look at one more plot, just out of curiosity (and hope we don't end the way of the proverbial cat :) ).
+
+```{r}
+plot(res.mca, invisible = c("var","quali.sup"), habillage = "frequency")
+```
+
+This plot is rather handy in seeing certain characteristics of survey respondents in graphical form. As we can see, the colour green seems to dominate, indicating that most of the `tea`survey respondents like to drink a nice cuppa more than twice a day. I suspect that this survey was carried out in Britain, and if this was the case, I do not doubt the accuracy of this assessment one bit!
+
+That's all for this week. Thanks so much for reading this to the very end, and have a great week!
