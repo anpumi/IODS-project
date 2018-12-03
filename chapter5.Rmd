@@ -99,7 +99,7 @@ pca_pr
 pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 # draw a biplot
-biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
+biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2], main="PCA Biplot with Non-Standardized Variables: what a giant mess!")
 
 ```
 
@@ -136,7 +136,7 @@ pca_pr
 pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 # draw a biplot
-biplot(pca_human, cex = c(0.6, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2])
+biplot(pca_human, cex = c(0.6, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1], ylab = pc_lab[2], main="PCA Biplot with Standardized Variables: a nicely readable plot!")
 
 ```
 
@@ -148,8 +148,6 @@ Including the percentages for the first two principal components in the biplot t
 Next, we will look at the correlations. If we look at, for example, the angle of the arrows that represent `Mat.Mor` and `Ado.Birth`, we can see that the angle is quite small between the two arrows. This corresponds to a high positive correlation (0.7586615). The angles of the arrows are the same in both biplots, since the correlations are identical for standardized and non-standardized data.
 
 The lengths of the arrows - representing the standard deviations of the variables - vary significantly between the non-standardized and standardized analyses. This is due to the fact that the SD results change dramatically once we standardize our data. The standard deviations are much more uniform in size in the standardized analysis.
-
-Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions (brief descriptions) in your plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to.
 
 ***
 
