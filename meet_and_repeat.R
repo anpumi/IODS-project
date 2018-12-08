@@ -58,6 +58,8 @@ glimpse(BPRSL)
 # listed vertically in a column, hence "long" form. In the "wide" form we read the
 # data horizontally.
 
+write.table(BPRSL, file = "bprsl.csv", row.names=FALSE)
+
 #~~~ RATS Data Wrangling ~~~
 
 # read the RATS data
@@ -92,3 +94,7 @@ glimpse(RATSL)
 # seven when two recordings were taken) over a 9-week period. The question of most
 # interest is whether the growth profiles of the three groups differ". p. 22
 # here: https://mooc.helsinki.fi/pluginfile.php/29659/course/section/2208/MABS4IODS-Part6.pdf
+
+write.table(RATSL, file = "ratsl.csv", row.names=FALSE)
+
+#~~~ End of Data Wrangling ~~~

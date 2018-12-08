@@ -81,9 +81,12 @@ pca_human
 
 
 humans <- read.table("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human1.txt", sep  =",", header = T)
+install.packages("stringr")
 library(stringr)
+install.packages("dplyr")
+library(dplyr)
 str_replace(humans$GNI, pattern=",", replace ="") %>% as.numeric$GNI
-humans$GNI <- as.numeric(human$GNI)
+humans$GNI <- as.numeric(humans$GNI)
 keep <- c("HDI", "Country", "Edu2.FM", "Labo.FM", "Life.Exp", "Edu.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
 humans <- select(humans, one_of(keep))
 complete.cases(humans)
@@ -104,15 +107,15 @@ humans$devt[humans$HDI<0.550]<-"Low"
 
 humans
 
-pca_humans <- prcomp(~ . -HDI -Country -GNI, data=humans, scale. = TRUE)
+pca_humans <- prcomp(~ . -HDI -devt, data = humans, scale. = TRUE)
 s <- summary(pca_humans)
 s
-biplot(pca_humans, cex = c(0.6, 1), col = humans$devt, xlab = "PC1", ylab = "PC2")
+biplot(pca_humans, cex = c(0.6, 1), col = c("darkslategray1", "darkslategray3", "darkslategray4", "darkslategray"), xlab = "PC1", ylab = "PC2")
 
 install.packages("devtools")
 install.packages("R6")
 library(devtools)
-install_github("vqv/ggbiplot")
+devtools::install_github("vqv/ggbiplot")
 
 library(ggbiplot)
 
@@ -123,4 +126,12 @@ g <- g + scale_color_discrete(name = '')
 g <- g + theme(legend.direction = 'horizontal', 
                legend.position = 'top')
 print(g)
-remove.packages("Rcpp")
+
+humans <- read.table("create_humans.csv", sep = "," , header=TRUE)
+str(humans)
+
+?ggbiplot
+str(tea)
+?tea
+
+plot(res.mca, invisible = c("var","quali.sup"), habillage = "frequency", xlim = c(-1.0,1.2), ylim = c(-0.6,1.5))
