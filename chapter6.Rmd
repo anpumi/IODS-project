@@ -1,7 +1,7 @@
 
-# 6. Analysis of Longitudinal Data {.tabset .tabset-fade .tabset-pills}
+# 6. Analysis of Longitudinal Data
 
->Welcome to the last of the weekly analysis entries! This week was interesting. Not only were there some major issues (more on those later), I also thought I'd experiment with the layout of the html some... As a result, please see the tabs for the two report sections (neat, huh?).
+>Welcome to the last of the weekly analysis entries! This week was interesting. Not only were there some major issues (more on those later), I also thought I'd experiment with the layout of the html some...
 
 This week we will go back to building statistical models. Here is a quote I borrowed from the [course instructions](https://mooc.helsinki.fi/course/view.php?id=158#section-6):
 
@@ -63,7 +63,7 @@ p5 <- p4 + scale_y_continuous(limits = c(min(RATSL$Weight), max(RATSL$Weight)))
 p5
 ```
 
-Inspecting the graphs above, we can see how the rats' weight increases over time in all the different groups. These plots are helpful in visualizing the weight growth profiles of individual rats. As we can see, rats with lower starting bodyweight have been grouped together, and that group shows the least actual (as opposed to proportional) weight increase.
+Inspecting the graphs above, we can see how the rats' weight increases over time in all the different groups. These plots are helpful in visualizing the weight growth profiles of individual rats. As we can see, rats with lower starting body weight have been grouped together, and that group shows the least actual (as opposed to proportional) weight increase.
 
 ### 1B. The Golden Standardise
 
@@ -82,6 +82,7 @@ RATSL <- RATSL %>%
 
 # Glimpse the data
 glimpse(RATSL)
+
 
 # Plot again with the standardised bprs
 ggplot(RATSL, aes(x = Time, y = stdweight, linetype = ID)) +
@@ -266,6 +267,7 @@ BPRS_reg <- lm(bprs ~ week + treatment, data = BPRSL)
 
 # print out a summary of the model
 summary(BPRS_reg)
+
 ```
 
 The summary table above shows the results from fitting a linear regression model with the `bprs` score as the response variable and `treatment` and `week` as the explanatory variables. This model ignores the repeated-measures structure of the data.
@@ -355,4 +357,8 @@ The `ANOVA` test on the two models `BPRS_ref1` and `BPRS_ref` tells us that the 
 
 Next we created a vector of the fitted values of the model with the function `fitted()` and added this new vector as a column in `BPRSL`. Then we used these fitted values to draw a new plot of `BPRSL`. 
 
-The second graph is interesting. It shows us the *fitted* values of the `bprs` scores.  
+The second set of graphs are interesting. They show us the *fitted* values of the `bprs` scores. These graphics underline the fact that the interaction model does not fit the observed data *quite* as well as it did with the RATS data. 
+
+Looking at the graphs of the fitted values, it appears that the slope of declining `bprs` scores is more acute in the first treatment group, indicating that the first form of treatment was more effective.
+
+>Again, thanks for reading to the end. Sadly, this was the last of the weekly exercises. I hope you've enjoyed yourself as much as I have!

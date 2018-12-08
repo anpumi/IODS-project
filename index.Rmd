@@ -4,14 +4,15 @@ title: "IODS course project"
 author: "Annukka Puotiniemi"
 output:
   html_document:
-    theme: lumen
+    theme: sandstone
+    highlight: tango
     toc: true
     toc_depth: 2
     toc_float: true
     fig_caption: true
     fig_width: 6
     fig_height: 4
-    code_folding: hide
+
 ---
 
 ***

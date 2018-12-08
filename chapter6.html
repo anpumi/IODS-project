@@ -124,10 +124,10 @@ $(document).ready(function () {
 </div>
 
 
-<div id="analysis-of-longitudinal-data" class="section level1 tabset tabset-fade tabset-pills">
+<div id="analysis-of-longitudinal-data" class="section level1">
 <h1>6. Analysis of Longitudinal Data</h1>
 <blockquote>
-<p>Welcome to the last of the weekly analysis entries! This week was interesting. Not only were there some major issues (more on those later), I also thought I’d experiment with the layout of the html some… As a result, please see the tabs for the two report sections (neat, huh?).</p>
+<p>Welcome to the last of the weekly analysis entries! This week was interesting. Not only were there some major issues (more on those later), I also thought I’d experiment with the layout of the html some…</p>
 </blockquote>
 <p>This week we will go back to building statistical models. Here is a quote I borrowed from the <a href="https://mooc.helsinki.fi/course/view.php?id=158#section-6">course instructions</a>:</p>
 <p><em>“The new challenge here is that the data may (and will) include two types of dependencies simultaneously: In addition to the more or less correlated variables that we have faced with all models and methods so far, the observations of the data will also be intercorrelated. Usually (in the above mentioned models and methods), we can (often pretty safely) assume that the observations are independent of each other. However, in longitudinal data this assumption seldom holds, because we have multiple observations or measurements of the same individuals. The concept of repeated measures highlights this phenomenon that is actually quite typical in many applications. Both types of dependencies must be taken into account; otherwise the models will be biased.”</em></p>
@@ -184,7 +184,7 @@ p4 &lt;- p3 + theme(legend.position = &quot;none&quot;)
 p5 &lt;- p4 + scale_y_continuous(limits = c(min(RATSL$Weight), max(RATSL$Weight)))
 p5</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
-<p>Inspecting the graphs above, we can see how the rats’ weight increases over time in all the different groups. These plots are helpful in visualizing the weight growth profiles of individual rats. As we can see, rats with lower starting bodyweight have been grouped together, and that group shows the least actual (as opposed to proportional) weight increase.</p>
+<p>Inspecting the graphs above, we can see how the rats’ weight increases over time in all the different groups. These plots are helpful in visualizing the weight growth profiles of individual rats. As we can see, rats with lower starting body weight have been grouped together, and that group shows the least actual (as opposed to proportional) weight increase.</p>
 </div>
 <div id="b.-the-golden-standardise" class="section level3">
 <h3>1B. The Golden Standardise</h3>
@@ -198,7 +198,7 @@ RATSL &lt;- RATSL %&gt;%
   ungroup()
 
 # Glimpse the data
-glimpse(RATSL)</code></pre>
+g_rats &lt;- glimpse(RATSL)</code></pre>
 <pre><code>## Observations: 176
 ## Variables: 6
 ## $ ID        &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1...
@@ -207,6 +207,3553 @@ glimpse(RATSL)</code></pre>
 ## $ Weight    &lt;int&gt; 240, 225, 245, 260, 255, 260, 275, 245, 410, 405, 44...
 ## $ Time      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8...
 ## $ stdweight &lt;dbl&gt; -1.0011429, -1.1203857, -0.9613953, -0.8421525, -0.8...</code></pre>
+<pre class="r"><code>kable(g_rats)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:left;">
+WD
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+<th style="text-align:right;">
+Time
+</th>
+<th style="text-align:right;">
+stdweight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+240
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1.0011429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-1.1203857
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.9613953
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.8421525
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.8819001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.8421525
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.7229096
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-0.9613953
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+410
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.3502758
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+405
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.3105282
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+445
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.6285091
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+555
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.5029565
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+470
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.8272471
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.3439660
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+520
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.2247232
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD1
+</td>
+<td style="text-align:right;">
+510
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.1452280
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+250
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.9617026
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-1.1232485
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+250
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.9617026
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.9213162
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.8809297
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.8405433
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.7597703
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.9213162
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+415
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.3710506
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+420
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.4114371
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+445
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.6133694
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+560
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1.5422580
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+465
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.7749153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+525
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1.2595528
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+525
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1.2595528
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD8
+</td>
+<td style="text-align:right;">
+510
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1.1383934
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.9221242
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-1.1183209
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+250
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.9613635
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.9221242
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.9221242
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.8044062
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.8828849
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+-0.8828849
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+425
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.4120129
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+430
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.4512523
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+450
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.6082096
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+565
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.5107141
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+475
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.8044062
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+530
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.2360388
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+530
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.2360388
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD15
+</td>
+<td style="text-align:right;">
+520
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1.1575602
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.9383444
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+232
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-1.1586684
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+255
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.9776880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.8990008
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.8596572
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.8203137
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.8596572
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+268
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+-0.8753947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+428
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.3835999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+440
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.4780245
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+452
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.5724491
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+580
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.5796448
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+485
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.8321167
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+533
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.2098151
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+540
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.2648961
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD22
+</td>
+<td style="text-align:right;">
+515
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.0681782
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+262
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.9457447
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+240
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-1.1163763
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+262
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.9457447
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.9224768
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.8836969
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.8449170
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.8604290
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+-0.8836969
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+438
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.4193076
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+448
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.4968674
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+455
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.5511593
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+590
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.5982165
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+487
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+0.7993506
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.1716376
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+543
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.2336855
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD29
+</td>
+<td style="text-align:right;">
+530
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+1.1328577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+258
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.9799007
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+240
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-1.1166311
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.9267278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+268
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.9039394
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.8659588
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+277
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.8355743
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+274
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.8583626
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+-0.9267278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+443
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.4253833
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+460
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.5545175
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+455
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.5165368
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+597
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+1.5951872
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+493
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+0.8051897
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+540
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+1.1622078
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+546
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+1.2077846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD36
+</td>
+<td style="text-align:right;">
+538
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+1.1470156
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+266
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.9375839
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+243
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-1.1172875
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+267
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.9297707
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+270
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.9063311
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+274
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.8750783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.8438255
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.8594519
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+-0.9453971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+442
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+0.4375392
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+458
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+0.5625504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+451
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+0.5078580
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+595
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+1.6329587
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+493
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+0.8360123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+525
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+1.0860347
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+538
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+1.1876063
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD43
+</td>
+<td style="text-align:right;">
+535
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+1.1641667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+266
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.9383233
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+244
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-1.1070968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+267
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.9306517
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+272
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.8922941
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.8846226
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.8462650
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+271
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.8999656
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+267
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+-0.9306517
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+446
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+0.4425510
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+464
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+0.5806385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+450
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+0.4732371
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+595
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+1.5856081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+504
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+0.8874994
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+530
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+1.0869590
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+544
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+1.1943604
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD44
+</td>
+<td style="text-align:right;">
+542
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+1.1790173
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+265
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.9615143
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+238
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-1.1617911
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+264
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.9689319
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+274
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.8947553
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.8799200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+284
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.8205787
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+282
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.8354141
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+-0.9021730
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+456
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+0.4552589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+475
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+0.5961945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+462
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+0.4997649
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+612
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+1.6124140
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+507
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+0.8335596
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+543
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+1.1005954
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+553
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+1.1747720
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD50
+</td>
+<td style="text-align:right;">
+550
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+1.1525191
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+272
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.9292397
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+247
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-1.1127026
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+268
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.9585937
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.9219011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.8852086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+279
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.8778700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+281
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.8631930
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+274
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+-0.9145626
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+468
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.5091096
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+484
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.6265258
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+466
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.4944325
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+618
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+1.6098871
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+518
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.8760354
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+544
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+1.0668368
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+555
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+1.1475605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD57
+</td>
+<td style="text-align:right;">
+553
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+1.1328835
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.9032605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-1.1397115
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+269
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.9677472
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+275
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.9247561
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+280
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.8889302
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+281
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.8817650
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+284
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.8602695
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+-0.9032605
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+478
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+0.5297755
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+496
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+0.6587488
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+472
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+0.4867844
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+628
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+1.6045526
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+525
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+0.8665390
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+559
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+1.1101551
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+548
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+1.0313381
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+WD64
+</td>
+<td style="text-align:right;">
+569
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+1.1818069
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code># Plot again with the standardised bprs
 ggplot(RATSL, aes(x = Time, y = stdweight, linetype = ID)) +
   geom_line() +
@@ -509,7 +4056,11 @@ ggplot(BPRSL, aes(x = week, y = Fitted, group = subject)) +
 <p>Here it is worth noting that the first two graphs are the same as before, and it shows the subjects whose scores started climbing back up before the treatment weeks were over.</p>
 <p>The <code>ANOVA</code> test on the two models <code>BPRS_ref1</code> and <code>BPRS_ref</code> tells us that the chi-squared value is 3.1712, and the p-value tells us that the fit against the comparison model is within the 95% significance level. This indicates a good fit.</p>
 <p>Next we created a vector of the fitted values of the model with the function <code>fitted()</code> and added this new vector as a column in <code>BPRSL</code>. Then we used these fitted values to draw a new plot of <code>BPRSL</code>.</p>
-<p>The second graph is interesting. It shows us the <em>fitted</em> values of the <code>bprs</code> scores.</p>
+<p>The second set of graphs are interesting. They show us the <em>fitted</em> values of the <code>bprs</code> scores. These graphics underline the fact that the interaction model does not fit the observed data <em>quite</em> as well as it did with the RATS data.</p>
+<p>Looking at the graphs of the fitted values, it appears that the slope of declining <code>bprs</code> scores is more acute in the first treatment group, indicating that the first form of treatment was more effective.</p>
+<blockquote>
+<p>Again, thanks for reading to the end. Sadly, this was the last of the weekly exercises. I hope you’ve enjoyed yourself as much as I have!</p>
+</blockquote>
 </div>
 </div>
 </div>
