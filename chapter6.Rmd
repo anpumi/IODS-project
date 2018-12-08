@@ -362,3 +362,7 @@ The second set of graphs are interesting. They show us the *fitted* values of th
 Looking at the graphs of the fitted values, it appears that the slope of declining `bprs` scores is more acute in the first treatment group, indicating that the first form of treatment was more effective.
 
 >Again, thanks for reading to the end. Sadly, this was the last of the weekly exercises. I hope you've enjoyed yourself as much as I have!
+
+***
+
+![**Goodbye**](girl.jpg)
