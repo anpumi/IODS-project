@@ -1,6 +1,11 @@
 
 # 6. Analysis of Longitudinal Data
 
+>Hello!!
+
+![](https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif)
+
+
 >Welcome to the last of the weekly analysis entries! This week was interesting. Not only were there some major issues (more on those later), I also thought I'd experiment with the layout of the html some...
 
 This week we will go back to building statistical models. Here is a quote I borrowed from the [course instructions](https://mooc.helsinki.fi/course/view.php?id=158#section-6):
@@ -40,7 +45,7 @@ RATS$ID <- factor(RATS$ID)
 RATS$Group <- factor(RATS$Group)
 RATSL <- RATS %>%
   gather(key = WD, value = Weight, -ID, -Group) %>%
-  mutate(Time = as.integer(substr(WD,3,4))) 
+  mutate(WDS = as.integer(substr(WD,3,4))) 
 ```
 
 ### 1A. Individuals on the plot
@@ -54,7 +59,7 @@ To begin we shall plot the `Weight` values for all 16 rats, and we will differen
 library(ggplot2)
 
 # Draw the plot
-p <- ggplot(RATSL, aes(x = Time, y = Weight, linetype = ID))
+p <- ggplot(RATSL, aes(x = WDS, y = Weight, col = ID))
 p1 <- p + geom_line()
 p2 <- p1 + scale_linetype_manual(values = rep(1:10, times=4))
 p3 <- p2 + facet_grid(. ~ Group, labeller = label_both)
@@ -76,7 +81,7 @@ And here comes the code for the graph:
 ```{r}
 # Standardise the variable Weight
 RATSL <- RATSL %>%
-  group_by(Time) %>%
+  group_by(WDS) %>%
   mutate(stdweight = (Weight - mean(Weight))/sd(Weight) ) %>%
   ungroup()
 
@@ -85,7 +90,7 @@ glimpse(RATSL)
 
 
 # Plot again with the standardised bprs
-ggplot(RATSL, aes(x = Time, y = stdweight, linetype = ID)) +
+ggplot(RATSL, aes(x = WDS, y = stdweight, col = ID)) +
   geom_line() +
   scale_linetype_manual(values = rep(1:10, times=4)) +
   facet_grid(. ~ Group, labeller = label_both) +
@@ -117,11 +122,11 @@ Although in our RATS dataset the number of individuals is much smaller (16) than
 
 ```{r eval=FALSE, include=FALSE}
 # Number of weeks, baseline included
-n <- RATSL$Time %>% unique() %>% length()
+n <- RATSL$WDS %>% unique() %>% length()
 
-# Summary data with mean and standard error of Weight by Group and Time 
+# Summary data with mean and standard error of Weight by Group and WDS 
 RATSS <- RATSL %>%
-  group_by(Group, Time) %>%
+  group_by(Group, WDS) %>%
   summarise( mean = mean(Weight), se = sd(Weight)/sqrt(n) ) %>%
   ungroup()
 
@@ -129,7 +134,7 @@ RATSS <- RATSL %>%
 glimpse(RATSS)
 
 # Plot the mean profiles
-ggplot(RATSS, aes(x = Time, y = mean, linetype = Group, shape = Group), inherit.aes=FALSE) +
+ggplot(RATSS, aes(x = WDS, y = mean, col = Group, shape = Group), inherit.aes=FALSE) +
   geom_line() +
   scale_linetype_manual(values = c(1,2,3)) +
   geom_point(size=3) +
@@ -149,7 +154,7 @@ It is time to find the outlier rat - if there is one! We will look into the post
 
 ```{r}
 RATSL9S <- RATSL %>%
-  filter(Time > 1) %>%
+  filter(WDS > 1) %>%
   group_by(Group, ID) %>%
   summarise(mean=mean(Weight)) %>%
   ungroup()
@@ -165,7 +170,7 @@ glimpse(RATSL9S)
 ```{r eval=FALSE, include=FALSE}
 # Create a summary data by dietgroup and ID with mean as the summary variable (we will ignore the baseline WD1).
 RATSL9S <- RATSL %>%
-  filter(Time > 1) %>%
+  filter(WDS > 1) %>%
   group_by(Group, ID) %>%
   summarise( mean=mean(Weight) ) %>%
   ungroup()
@@ -187,15 +192,15 @@ The group that shows us the most interesting results here is `Group 2`. The mean
 ![**code AND graph**](ch6/1d_code_graph.png)
 
 ```{r eval=FALSE, include=FALSE}
-RATSL9S1 <- RATSL9S %>%
-  filter(mean < 580)
+RATSL9S1 <- filter(RATSL9S, (Group == 1 & mean > 250) | (Group == 2 & mean < 590) | (Group == 3 & mean > 500))
+
 ggplot(RATSL9S1, aes(x = Group, y = mean), inherit.aes=FALSE) +
   geom_boxplot() +
   stat_summary(fun.y = "mean", geom = "point", shape=23, size=4, fill = "white") +
   scale_y_continuous(name = "mean(Weight), WD 8-64")
 ```
 
-This obviously still leaves the outliers of the other two groups, and also makes the box for `Group 2` looking almost the same as the other two. The boxes being so short means that the standardized weights of the rats in each group are very close to one another.
+Excluding the outliers changes the box plots quite significantly, especially for `Group 2`. The boxes being so short means that the standardized weights of the rats in each group are very close to one another.
 
 ### 1E. T for test and A for Anova
 
@@ -246,14 +251,14 @@ Let's begin by plotting the data and identifying the observations in each treatm
 ```{r}
 # Plot the BPRSL data
 ggplot(BPRSL, aes(x = week, y = bprs, group = subject)) +
-  geom_line(aes(linetype = treatment)) +
+  geom_line(aes(col = treatment)) +
   scale_linetype_manual(values = rep(1:10, times=4)) +
   facet_grid(. ~ treatment, labeller = label_both) +
   theme(legend.position = "none") + 
   scale_y_continuous(limits = c(min(BPRSL$bprs), max(BPRSL$bprs)))
 ```
 
-Here we can see all the individuals in each treatment group, and how their `bprs` score behaves throughout the weeks. In the DataCamp exercise (for RATS data), the different groups were all presented in the same graph. However, that does not work with our `BPRS` data as there are so many subjects. Hence the two separate graphs for the two `treatment` groups. We can see that, for the most part, the `bprs` scores are declining throughout the weeks, indicating that the treatments are at least somewhat effective. Another observation of interest here is that especially within the `treatment 1` group, the scores tend to converge towards the end of the treatment weeks. As is the case so often, though, there are exceptions to the rule: we can observe two subjects in each group whose `bprs` scores start increasing before the treatment weeks are over. 
+Here we can see all the individuals in each treatment group, and how their `bprs` score behaves throughout the weeks. In the DataCamp exercise (for RATS data), the different groups were all presented in the same graph. However, that does not work with our `BPRS` data as there are so many subjects. Hence the two separate graphs for the two `treatment` groups. We can see that, for the most part, the `bprs` scores are declining throughout the weeks, indicating that the treatments are at least somewhat effective. Another observation of interest here is that especially within the `treatment 1` group, the scores tend to converge towards the end of the treatment weeks. As is the case so often, though, there are exceptions to the rule: we can observe two subjects in each group whose `bprs` scores start increasing before the treatment weeks are over.
 
 ### 2B. Holding on to independence: The Linear model
 
@@ -273,6 +278,17 @@ summary(BPRS_reg)
 The summary table above shows the results from fitting a linear regression model with the `bprs` score as the response variable and `treatment` and `week` as the explanatory variables. This model ignores the repeated-measures structure of the data.
 
 In this summary, a worthwhile observation is the significance of the regression `week`. Also, conditional on `week`, treatment group 2 differs from treatment group 1. 
+
+So, what does a graphical representation of the above data look like?
+
+```{r}
+p1 <- ggplot(BPRS_reg, aes(x = week, y = bprs, col = treatment))  
+p2 <- p1 + geom_point()  
+p3 <- p2 + geom_smooth(method = "lm")
+p3
+```
+
+According to this graph, the `bprs` scores of treatment group 1 start higher and decline faster throughout the weeks than the scores of the subjects in group 2. This indicates that the treatment that the subjects receive in group 1 is more effective.
 
 ### 2C. The Random Intercept Model
 
@@ -311,7 +327,7 @@ anova(BPRS_ref1, BPRS_ref)
 
 ```
 
-The chi-squared statistic of the likelihood ratio test between `BPRS_ref` and `BPRS_ref` is within the 95% level of significance.
+The chi-squared statistic of the likelihood ratio test between `BPRS_ref` and `BPRS_ref` is within the 95% level of significance, indicating a good fit for the model.
 
 ### 2E. Time to interact: Random Intercept and Random Slope Model with interaction
 
@@ -359,7 +375,7 @@ Next we created a vector of the fitted values of the model with the function `fi
 
 The second set of graphs are interesting. They show us the *fitted* values of the `bprs` scores. These graphics underline the fact that the interaction model does not fit the observed data *quite* as well as it did with the RATS data. 
 
-Looking at the graphs of the fitted values, it appears that the slope of declining `bprs` scores is more acute in the first treatment group, indicating that the first form of treatment was more effective.
+Looking at the graphs of the fitted values, it appears that the slope of declining `bprs` scores is more acute in the first treatment group, indicating that the first form of treatment was more effective. Out of curiosity, I tried to find out what the treatments were that the subjects received in the two groups, but unfortunately this information was not readily available anywhere. While looking, I did manage to find a pdf of the Davis 2002 book, "Statistical Methods for the Analysis of Repeated Measurements". If you're interested in learning more about methods for repeated measurements (i.e. longitudinal data), I recommend taking a look at this volume.
 
 >Again, thanks for reading to the end. Sadly, this was the last of the weekly exercises. I hope you've enjoyed yourself as much as I have!
 
