@@ -185,7 +185,7 @@ ggplot(RATSL9S, aes(x = Group, y = mean), inherit.aes=FALSE) +
   scale_y_continuous(name = "mean(Weight), WD 8-64")
 ```
 
-The group that shows us the most interesting results here is `Group 2`. The mean is on the very edge of the box, and the distribution is very skewed. The second  group also shows us that one outlier (outlaw rat!), near the 600 gram mark. Let's remove that pesky rodent...
+The group that shows us the most interesting results here is `Group 2`. The mean is on the very edge of the box, and the distribution is very skewed. The second  group also shows us that one outlier (outlaw rat!), near the 600 gram mark. Both `Group 1` and `Group 3` also show a single outlier. Let's remove those pesky rodents...
 
 **And again, an unfortunate screenprint coming your way...**
 
@@ -298,7 +298,7 @@ We will fit a random intercept model of the `bprs` score data using `week` and `
 
 The package we will use is `lme4`. It offers some handy tools for linear and generalized linear mixed-effects models. We will be using the now-familiar ~ operator and also the vertical bar for distinguishing random-effects terms.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # access library lme4
 library(lme4)
 
