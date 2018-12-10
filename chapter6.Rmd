@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
 
 # 6. Analysis of Longitudinal Data
 
@@ -344,8 +349,8 @@ summary(BPRS_ref2)
 anova(BPRS_ref2, BPRS_ref1)
 
 # draw the plot of BPRSL
-ggplot(BPRSL, aes(x = week, y = bprs, group = subject)) +
-  geom_line(aes(linetype = treatment)) +
+ggplot(BPRSL, aes(x = week, y = bprs, linetype = subject)) +
+  geom_line(aes(col = treatment)) +
   scale_linetype_manual(values = rep(1:10, times=4)) +
   facet_grid(. ~ treatment, labeller = label_both) +
   theme(legend.position = "none") + 
@@ -359,8 +364,8 @@ BPRSL <- BPRSL %>%
   mutate(Fitted)
 
 # draw the plot of BPRSL
-ggplot(BPRSL, aes(x = week, y = Fitted, group = subject)) +
-  geom_line(aes(linetype = treatment)) +
+ggplot(BPRSL, aes(x = week, y = Fitted, linetype = subject)) +
+  geom_line(aes(col = treatment)) +
   scale_linetype_manual(values = rep(1:10, times=4)) +
   facet_grid(. ~ treatment, labeller = label_both) +
   theme(legend.position = "none") + 
@@ -382,3 +387,5 @@ Looking at the graphs of the fitted values, it appears that the slope of declini
 ***
 
 ![**Goodbye**](girl.jpg)
+
+***
