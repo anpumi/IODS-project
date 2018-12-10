@@ -10,7 +10,7 @@ As in last week, I created a new RMarkdown file and save it as an empty file nam
 
 I also accessed some packages that I might need later.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 library(ggplot2); library(GGally); library(corrplot); library(tidyr); library(dplyr)
 ```
 
@@ -19,7 +19,7 @@ library(ggplot2); library(GGally); library(corrplot); library(tidyr); library(dp
 
 To load and explore the Boston data, I first needed to access the MASS package, and then load the "Boston" data. Below is the structure and summary of the data, and also a matrix of the variables.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # access the MASS package
 library(MASS)
 
@@ -46,7 +46,7 @@ Belsley D.A., Kuh, E. and Welsch, R.E. (1980) < em >Regression Diagnostics. Iden
 Below is a graphical overview of the data and the summaries of the variables in the data.
 
 
-```{r}
+```{r message=FALSE, error=FALSE}
 summary(Boston)
 pairs(Boston)
 ```
@@ -57,7 +57,7 @@ The values for `medv`vary from 5 to 50, witha mean value of 22.53. `medv` correl
 
 Let's look at a way of plotting the correlations, this time from the `corrplot`package. Also, the funstion `cor()` can be used to craete a correlation matrix of the data.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # calculate the correlation matrix and round it
 cor_matrix<-cor(Boston) %>% round(digits = 2)
 
@@ -75,7 +75,7 @@ The `corrplot`is a really neat visualization method. Positive correlations are d
 Now we need to scale the data. This is done by subtracting the column means from the corresponding columns and dividing the difference with standard deviation.
 $$scaled(x)=\frac{x-mean(x)}{sd(x)}$$
 The dataset is then standardized, and below I have printed out a summary of the scaled data.
-```{r}
+```{r message=FALSE, error=FALSE}
 # center and standardize variables
 boston_scaled <- scale(Boston)
 
@@ -94,7 +94,7 @@ How did the variables change? They have changed per the *scaled(x)* equation abo
 
 We can create a categorical variable from a continuous one, and we will do that with the crime rate in the Boston dataset (from the scaled crime rate). We will cut the `crim`variable by quantiles to get the high, low and middle rates of crime into their own categories. The quantiles are used as the break points in the new categorical variable. The old crime rate variable is dropped from the dataset.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # summary of the scaled crime rate
 summary(boston_scaled$crim)
 
@@ -117,7 +117,7 @@ boston_scaled <- data.frame(boston_scaled, crime)
 
 Next, we will divide the dataset to training and test sets, so that 80% of the data belongs to the training set.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # number of rows in the Boston dataset 
 n <- nrow(boston_scaled)
 
@@ -143,7 +143,7 @@ Next we will look at linear discriminant analysis. It is a classification and di
 
 First, we will fit the linear discriminant analysis on the training set created in the previous step. We will use the categorical crime rate as the target variable and all the other variables are predictor variables. Then we will draw the LDA (bi)plot.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # linear discriminant analysis
 lda.fit <- lda(crime ~ ., data = train)
 
@@ -161,7 +161,7 @@ The group means have the value for every variable and for every class. The means
 Then there are the coefficients of the linear discriminants. There is a coefficient for each of the variables. We have four target variables, and therefore three linear discriminants.
 
 The proportion of trace is the between-group variance. In our model, Linear Discriminant 1 explains almost 95% of the between-group variance.
-```{r}
+```{r message=FALSE, error=FALSE}
 # the function for lda biplot arrows
 lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
   heads <- coef(x)
@@ -189,7 +189,7 @@ The results are cross tabulated with the crime categories from the test set.
 
 Save the crime categories from the test set and then remove the categorical crime variable from the test dataset
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # predict classes with test data
 lda.pred <- predict(lda.fit, newdata = test)
 
@@ -207,14 +207,14 @@ As the cross tabulation shows, the LDA model performs exceptionally well only fo
 
 Now we will look at clustering, and we will start with distance measures. First, we need to reload the Boston dataset and standardize the dataset.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 library(MASS)
 data('Boston')
 ```
 
 Now we will scale the `Boston`variables to get comparable distances.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # center and standardize variables
 boston_K_scaled <- scale(Boston)
 
@@ -231,7 +231,7 @@ boston_K_scaled <- as.data.frame(boston_K_scaled)
 
 Now we will calculate the distances between the observations. We will use the `dist()`function for this, and by default it will use Euclidean distance measure to create a distance matrix. We will also look at the Manhattan method.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # euclidean distance matrix
 dist_eu <- dist(boston_K_scaled)
 
@@ -248,7 +248,7 @@ summary(dist_man)
 
 K-means is one of the best known clustering methods, and it is an unsupervised one. It assigns obsrvations to clusters based on the similarities of the objects. We will next run a k-means algorithm on the dataset. We will use 4 centers to begin with. This could in theory be any number though, hence the K.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # k-means clustering
 km <-kmeans(boston_K_scaled, centers = 4)
 
@@ -263,7 +263,7 @@ $WCSS=\sum^N_{i} (X_i-centroid)^2$
 
 We will achieve this by plotting the number of clusters and the total WCSS. Once the WCSS drops radically, we have the optimal number of clusters. So, let's see where we get our radical drop!
 
-```{r}
+```{r message=FALSE, error=FALSE}
 set.seed(123) #K-means might produce different results every time, because it randomly assigns the initial cluster centers. This function is used to deal with that.
 
 # determine the number of clusters
@@ -279,7 +279,7 @@ qplot(x = 1:k_max, y = twcss, geom = 'line')
 
 In this case, two clusters seems optimal. We will therefore run `kmeans()`again with two clusters and visualize the results. I will split the pairs plot into two separate ones, for more readable results. I was going to use `ggpairs` but drawing the plot took soooooo long!
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # k-means clustering
 km <-kmeans(boston_K_scaled, centers = 2, nstart = 20)
 km
@@ -295,12 +295,12 @@ The first cluster is composed of 177 observations, and the second of 329. Only 3
 
 Perform k-means on the original Boston data with some reasonable number of clusters (> 2) (I did 3). Remember to standardize the dataset.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 library(MASS)
 data('Boston')
 ```
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # center and standardize variables
 boston_K2_scaled <- scale(Boston)
 
@@ -320,7 +320,7 @@ km
 
 Then we will perform LDA using the clusters as target classes. I will include all the variables in the Boston data in the LDA model.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # access the cluster component in the kmeans data and change it to dataframe
 cluster <- km$cluster
 cluster <- as.data.frame(cluster)
@@ -349,7 +349,7 @@ bonus.lda.fit
 
 Next, we will visualize the results with a biplot (including arrows representing the relationships of the original variables to the LDA solution).
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # the function for lda biplot arrows
 lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
   heads <- coef(x)
@@ -369,13 +369,13 @@ lda.arrows(bonus.lda.fit, myscale = 1.5)
 
 ```
 
-It appears that the most influencial linear separators for the clusters are LDA1 and LDA2. The variables `rad` and `tax` represent the most discrimination (their arrows are the longest). The angles between arrows represent the correlations between the variables (small angle = high positive correlation).
+It appears that the most influencial linear separators for the clusters are `LDA1` and `LDA2`. The variables `rad` and `tax` represent the most discrimination (their arrows are the longest). The angles between arrows represent the correlations between the variables (small angle = high positive correlation).
 
 ## Super-Bonus
 
 Run the code below for the (scaled) train data that you used to fit the LDA. The code creates a matrix product, which is a projection of the data points.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 model_predictors <- dplyr::select(train, -crime)
 # check the dimensions
 dim(model_predictors)
@@ -388,16 +388,17 @@ matrix_product <- as.data.frame(matrix_product)
 
 Next, install and access the plotly package. Create a 3D plot (Cool!) of the columns of the matrix product by typing the code below.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 library(plotly)
 ```
 
-```{r}
+```{r message=FALSE, error=FALSE}
 plot_ly(x = matrix_product$LD1, y = matrix_product$LD2, z = matrix_product$LD3, type= 'scatter3d', mode='markers', color=train$crime)
 ```
 
 
 No kidding, this is cool!!
 
-Sadly, this is where I had to stop this week, and I won't be doing a comparison here. Thanks for reading to the end, and have a good week!
+>Sadly, this is where I had to stop this week, and I won't be doing a comparison here. Thanks for reading to the end, and have a good week!
 
+***

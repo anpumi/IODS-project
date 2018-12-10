@@ -338,7 +338,7 @@ The chi-squared statistic of the likelihood ratio test between `BPRS_ref` and `B
 
 Now for the final part: fitting a random intercept and slope model that allows for a treatment group x time interaction.
 
-```{r}
+```{r message=FALSE, error=FALSE}
 # create a random intercept and random slope model
 BPRS_ref2 <- lmer(bprs ~ week * treatment + (week | subject), data = BPRSL, REML = FALSE)
 
