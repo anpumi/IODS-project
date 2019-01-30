@@ -5,4 +5,4 @@ This 7-week course, as described in Kimmo Vehkalahti's blog, is
 
 The course sounds exciting enough for me to cha(lle)nge my plans and become a data scientist!
 
-[Annukka's GitHub repository](https://github.com/msnxt/IODS-project)
+[Course Page is here](https://anpumi.github.io/IODS-project/)
